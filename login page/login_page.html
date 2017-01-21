@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="login_page.css">
+</head>
+<body>
+<form id="main_page_form" class="w3-animate-top">
+    <fieldset>
+
+        <h2 class="fs-title">Welcome to TMS Polling</h2>
+        <h3 class="fs-subtitle">If you have received the one-time password sent to your phone:</h3>
+        <input type="button" name="login" class="action-button" value="Log In" onclick="document.getElementById('login-content').style.display='block'"/>
+        <h3 class="fs-subtitle">If you have not registered your information:</h3>
+        <!--TODO:change the temporary url to a functional url-->
+        <a href="http://localhost:63342/TMSVoterEnd/signup%20page/signup%20page.html?_ijt=335h78aqpotfsmo2ue9q6jkh3p"><input type="button" name="signup" class="action-button" value="Sign Up" /></a>
+
+
+    </fieldset>
+    <div id="login-content" class="w3-modal">
+        <div class="w3-modal-content w3-animate-zoom">
+            <div class="w3-container w3-padding">
+                <span onclick="document.getElementById('login-content').style.display='none'" class="w3-right w3-xxlarge w3-closebtn"><i class="fa fa-remove"></i></span>
+            </div>
+            <div class="w3-panel">
+                <input type="text" name="NRIC" placeholder="Enter NRIC"/>
+                <input type="text" name="OTP" placeholder="Enter One-Time Password"/>
+                <div class="w3-section">
+                    <a class="cancel-button" onclick="document.getElementById('login-content').style.display='none'">Cancel </a>
+                    <a class="action-button" onclick="document.getElementById('login-content').style.display='none'">Log In </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+</body>
+</html>
