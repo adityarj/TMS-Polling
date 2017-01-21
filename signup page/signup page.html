@@ -43,12 +43,12 @@
     <fieldset>
         <h2 class="fs-title">Authentication</h2>
         <input type="tel" id="phoneNumber" name="phone" placeholder="Mobile Phone Number"/>
-        <input type="button" name="cueOTP" class="send-message-button" value="Send Me One-Time Password"/>
+        <input type="button" name="cueOTP" id="phoneButton" class="send-message-button" value="Send Me One-Time Password"/>
         <!--onclick of the button, an authy code will be sent to the phone-->
 
         <input type="number" id="otpNumber"  name="OTP" placeholder="Enter One-Time Password"/>
         <input type="button" name="previous" class="previous action-button" value="Previous"/>
-        <input type="button" name="next" class="next action-button" value="Next"/>
+        <input type="button" id="submitButton" name="next" disabled="disabled" class="next disabled-button" value="Next"/>
         <!--in the final product, once OTP is right, it will go to the next page automatically without the Next button-->
 
     </fieldset>

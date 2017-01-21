@@ -90,4 +90,8 @@ $(document).ready(function() {
 
     $('#otpNumber').mask('9999');
 
+    $('#phoneButton').click(function(e) {
+        $('#submitButton').prop('disabled',false).toggleClass('disabled-button action-button',500,'easeOutBounce');
+    });
+
 });
