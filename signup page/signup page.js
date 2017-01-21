@@ -86,4 +86,8 @@ $(document).ready(function() {
 
     $('.check').css('stroke-dashoffset', 0);
 
+    $('#phoneNumber').mask('9999 9999');
+
+    $('#otpNumber').mask('9999');
+
 });
