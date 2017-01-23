@@ -24,8 +24,8 @@
 
         <h2 class="fs-title">Fill in your details</h2>
         <!--TODO: required field-->
-        <input type="text" name="name" placeholder="Name"/>
-        <input type="text" name="NRIC" placeholder="NRIC"/>
+        <input type="text" name="name" placeholder="Name" maxlength="30" />
+        <input type="text" id="nricInput" name="NRIC" placeholder="NRIC"/>
         <input type="email" name="email" placeholder="Email"/>
 
         <label>
@@ -46,7 +46,7 @@
         <input type="button" name="cueOTP" id="phoneButton" class="send-message-button" value="Send Me One-Time Password"/>
         <!--onclick of the button, an authy code will be sent to the phone-->
 
-        <input type="number" id="otpNumber"  name="OTP" placeholder="Enter One-Time Password"/>
+        <input type="text" id="otpNumber"  name="OTP" placeholder="Enter One-Time Password"/>
         <input type="button" name="previous" class="previous action-button" value="Previous"/>
         <input type="button" id="submitButton" name="next" disabled="disabled" class="next disabled-button" value="Next"/>
         <!--in the final product, once OTP is right, it will go to the next page automatically without the Next button-->

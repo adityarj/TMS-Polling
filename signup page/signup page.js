@@ -94,4 +94,6 @@ $(document).ready(function() {
         $('#submitButton').prop('disabled',false).toggleClass('disabled-button action-button',500,'easeOutBounce');
     });
 
+    $('#nricInput').mask('S0000000S')
+
 });
