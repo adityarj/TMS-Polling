@@ -24,20 +24,20 @@
 
         <h2 class="fs-title">Fill in your details</h2>
         <!--TODO: required field-->
-        <input type="text" name="name" placeholder="Name" maxlength="30" />
-        <input type="text" id="nricInput" name="NRIC" placeholder="NRIC"/>
-        <input type="email" name="email" placeholder="Email"/>
+        <input type="text" name="name" placeholder="Name" maxlength="30" class="signInput"/>
+        <input type="text" id="nricInput" name="NRIC" placeholder="NRIC" class="signInput"/>
+        <input type="email" name="email" placeholder="Email" class="signInput"/>
 
         <label>
-            <input list="companies" placeholder="Company">
+            <input list="companies" placeholder="Company" class="signInput">
         </label>
         <datalist id="companies">
             <option value="Singtel">
             <option value="M1">
             <option value="Starhub">
         </datalist>
-        <input type="number" name="shares" placeholder="Shares(0-1)"/>
-        <input type="button" name="next" class="next action-button" value="Next"/>
+        <input type="text" name="shares" placeholder="Shares(0-1)" class="signInput" id="shareInput"/>
+        <input type="button" name="next" class="next disabled-button" value="Next" disabled="true"  id="nextButton"/>
         </fieldset>
     <!--page 2-->
     <fieldset>
