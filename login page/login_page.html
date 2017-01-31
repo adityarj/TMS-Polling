@@ -7,6 +7,9 @@
     <title>Title</title>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="login_page.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="login_page.js"></script>
 </head>
 <body>
 <form id="main_page_form" class="w3-animate-top">
@@ -27,8 +30,8 @@
                 <span onclick="document.getElementById('login-content').style.display='none'" class="w3-right w3-xxlarge w3-closebtn"><i class="fa fa-remove"></i></span>
             </div>
             <div class="w3-panel">
-                <input type="text" name="NRIC" placeholder="Enter NRIC"/>
-                <input type="text" name="OTP" placeholder="Enter One-Time Password"/>
+                <input type="text" name="NRIC" placeholder="Enter NRIC" id="LoginNRICField"/>
+                <input type="text" name="OTP" placeholder="Enter One-Time Password" id="LoginOTPField"/>
                 <div class="w3-section">
                     <a class="cancel-button" onclick="document.getElementById('login-content').style.display='none'">Cancel </a>
                     <a class="action-button" onclick="document.getElementById('login-content').style.display='none'">Log In </a>
