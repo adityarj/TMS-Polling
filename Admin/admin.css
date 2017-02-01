@@ -1,0 +1,26 @@
+body {
+	background: #212121;
+}
+.date { 
+	background: #fa8181;
+	color: #ffffff; 
+	isplay: inline-block; 
+	font-family: 'Lato', sans-serif; 
+	font-size: 25px; 
+	font-weight: bold; 
+	line-height: 12px; 
+	letter-spacing: 1px; 
+	margin: 0 0 30px; 
+	padding: 30px 15px 30px; 
+	text-transform: uppercase; 
+}
+
+.font {
+	color: #ffffff; 
+	isplay: inline-block; 
+	font-family: 'Lato', sans-serif; 
+	font-size: 1px; 
+	font-weight: bold; 
+	letter-spacing: 1px; 
+	text-transform: uppercase; 
+}
