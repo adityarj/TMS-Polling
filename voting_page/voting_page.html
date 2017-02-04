@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Title</title>
+</head>
+<body onload="updateInformation()">
+<form id="msform">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <link rel="stylesheet" href="voting_page.css">
+
+
+    <script>
+        var current_fs, next_fs, previous_fs; //fieldsets
+        var left, opacity, scale; //fieldset properties which we will animate
+        var animating; //flag to prevent quick multi-click glitches
+        function transform_to_next() {
+
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+                step: function (now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale current_fs down to 80%
+                    scale = 1 - (1 - now) * 0.2;
+                    //2. bring next_fs from the right(50%)
+                    left = (now * 50) + "%";
+                    //3. increase opacity of next_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({
+                        'transform': 'scale(' + scale + ')',
+                        'position': 'absolute'
+                    });
+                    next_fs.css({'left': left, 'opacity': opacity});
+                },
+                duration: 800,
+                complete: function () {
+                    current_fs.hide();
+                    animating = false;
+                },
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+        }
+//        function timer() {
+//            var today=new Date();
+//            var h=today.getHours();
+//            var m=today.getMinutes();
+//            var t=setTimeout(timer,500);
+//            document.getElementById('t').innerHTML="time "+h+":"+m;
+//
+//        }
+
+
+        $(document).ready(function() {
+
+            $(".next").click(function () {
+
+
+
+//                    TODO:send the data over
+                    if (animating) return false;
+                    animating = true;
+
+                    current_fs = $(this).parent();
+                    next_fs = $(this).parent().next();
+                    next_fs.show();
+                    transform_to_next();
+
+
+
+
+            });
+            $('.yes').click(function () {
+
+                var choice= confirm("Your choice is YES");
+                if (choice==true){
+
+
+//                    TODO:send the data over
+                    if (animating) return false;
+                    animating = true;
+
+                    current_fs = $(this).parent();
+                    next_fs = $(this).parent().next();
+                    next_fs.show();
+                    transform_to_next();
+                }
+
+
+            });
+            $('.no').click(function () {
+
+                var choice= confirm("Your choice is NO");
+                if (choice==true){
+
+
+
+//                    TODO:send the data over
+
+
+
+
+                        if (animating) return false;
+                        animating = true;
+
+                        current_fs = $(this).parent();
+                        next_fs = $(this).parent().next();
+                        next_fs.show();
+                        transform_to_next();
+                    }
+
+
+
+
+            });
+            $('.abstain').click(function () {
+
+                var choice= confirm("Your choice is ABSTAIN");
+                if (choice==true){
+//                    TODO:send the data over
+
+
+
+
+                    if (animating) return false;
+                    animating = true;
+
+                    current_fs = $(this).parent();
+                    next_fs = $(this).parent().next();
+                    next_fs.show();
+                    transform_to_next();
+                }
+
+            });
+
+        });
+    </script>
+
+
+    <!--page 1-->
+    <fieldset >
+        <script>
+            function updateInformation() {
+//                set the value to the database value
+                document.getElementById("name").innerHTML="yun";
+                document.getElementById("company-name").innerHTML="SUTD";
+                document.getElementById("shares").innerHTML="no";
+
+            }
+
+        </script>
+
+
+
+        <h2 class="fs-title" >Hi, <var id="name"></var></h2>
+        <h3 class="fs-subtitle">From <var id="company-name"> </var> with <var id="shares"> </var> shares</h3>
+        <input type="button" name="vote" class="next action-button" value="Start Voting"/>
+
+    </fieldset >
+    <!--page 2-->
+    <fieldset id="Q1" >
+        <h2 class="fs-title" >Q1: Do you think Donald Trump will win again after 4 years?</h2>
+        <!--<div id="t"></div>-->
+
+
+        <input type="button" name="yes" class="yes send-message-button" value="Yes" />
+        <input type="button" name="no" class="no send-message-button" value="No" />
+        <input type="button" name="abstain" class="abstain send-message-button" value="Abstain"/>
+
+
+    </fieldset>
+    <fieldset>
+        <h2 class="fs-title">Q2: Do you think SUTD students should take control of the operation of the canteen?</h2>
+        <input type="button" name="yes" class="yes send-message-button" value="Yes" />
+        <input type="button" name="no" class="no send-message-button" value="No" />
+        <input type="button" name="abstain" class="abstain send-message-button" value="Abstain"/>
+
+
+    </fieldset>
+    <fieldset>
+
+
+        <div class="checkmark">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 161.2 161.2" enable-background="new 0 0 161.2 161.2" xml:space="preserve">
+<polyline class="path" fill="none" stroke="#59b247" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" points="113,52.8
+	74.1,108.4 48.2,86.4 "></polyline>
+
+
+</svg>
+
+            <p>Thanks for polling!</p>
+        </div>
+        <input type="button" name="next" class="next action-button" value="View Result" />
+    </fieldset>
+    <fieldset>
+        <h2 class="fs-title" >Q1: Do you think Donald Trump will win again after 4 years?</h2>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Hours per Day'],
+                    ['Yes',     1],
+                    ['No',      3],
+                    ['Abstained',  2]
+
+                ]);
+
+                var options = {
+                    colors: ['#27AE60','#2C3E50','#008080'],
+                    backgroundColor: 'transparent'
+
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                chart.draw(data, options);
+            }
+        </script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Hours per Day'],
+                    ['Yes',     3],
+                    ['No',      1],
+                    ['Abstained',  2]
+
+                ]);
+
+                var options = {
+                    colors: ['#27AE60','#2C3E50','#008080'],
+                    backgroundColor: 'transparent'
+
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+
+                chart.draw(data, options);
+            }
+        </script>
+        <div >
+            <div id="piechart" ></div>
+        </div>
+        <h2 class="fs-title">Q2: Do you think SUTD students should take control of the operation of the canteen?</h2>
+        <div >
+            <div id="piechart2" ></div>
+        </div>
+
+
+
+
+
+
+    </fieldset>
+</form>
+</body>
+</html>

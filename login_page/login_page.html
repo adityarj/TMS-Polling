@@ -7,17 +7,19 @@
     <title>Title</title>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="login_page.css">
+
 </head>
 <body>
-<form id="main_page_form" class="w3-animate-top">
-    <fieldset>
+<form id="main_page_form">
+    <fieldset >
 
-        <h2 class="fs-title">Welcome to TMS Polling</h2>
-        <h3 class="fs-subtitle">If you have received the one-time password sent to your phone:</h3>
-        <input type="button" name="login" class="action-button" value="Log In" onclick="document.getElementById('login-content').style.display='block'"/>
-        <h3 class="fs-subtitle">If you have not registered your information:</h3>
+        <h2 class="fs-title w3-animate-top">Welcome to TMS Polling</h2>
+        <hr>
+        <h3 class="fs-subtitle w3-animate-top" >If you have received the one-time password sent to your phone:</h3>
+        <input type="button" name="login" class="action-button w3-animate-top" value="Log In" onclick="document.getElementById('login-content').style.display='block'"/>
+        <h3 class="fs-subtitle w3-animate-top">If you have not registered your information:</h3>
         <!--TODO:change the temporary url to a functional url-->
-        <a href="http://localhost:63342/TMSVoterEnd/signup%20page/signup%20page.html?_ijt=335h78aqpotfsmo2ue9q6jkh3p"><input type="button" name="signup" class="action-button" value="Sign Up" /></a>
+        <a href="http://localhost:63343/untitled/signup%20page/signup%20page.html?_ijt=fufunodcfrcm5meemsue9errme"><input type="button" name="signup" class="action-button w3-animate-top" value="Sign Up" /></a>
 
 
     </fieldset>
@@ -31,7 +33,7 @@
                 <input type="text" name="OTP" placeholder="Enter One-Time Password"/>
                 <div class="w3-section">
                     <a class="cancel-button" onclick="document.getElementById('login-content').style.display='none'">Cancel </a>
-                    <a class="action-button" onclick="document.getElementById('login-content').style.display='none'">Log In </a>
+                    <a class="action-button" onclick="document.getElementById('login-content').style.display='none'" href="http://localhost:63343/untitled/voting%20page/voting_page.html?_ijt=sd7da2gkkctt0cc8kaa6hdvkil">Log In </a>
                 </div>
             </div>
         </div>
