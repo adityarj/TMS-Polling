@@ -64,6 +64,19 @@ body {
     padding: 10px 5px;
     margin: 10px 5px;
 }
+
+#msform .disabled-button {
+
+	width: 100px;
+    background: #dddddd;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: not-allowed;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
 #msform .action-button:hover, #msform .action-button:focus {
     background: #5dbf69;
 }
@@ -81,8 +94,8 @@ body {
 #msform .send-message-button:hover, #msform .action-button:focus {
     background: #5dbf69;
 }
-/*headings*/
-.fs-title {
+/*headings*
+/.fs-title {
     font-size: 15px;
     text-transform: uppercase;
     color: #2C3E50;
@@ -230,6 +243,9 @@ p {
     }
 }
 
+#phoneNumber, #otpNumber {
+	text-align: center;
+}
 
 
 

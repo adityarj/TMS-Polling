@@ -5,6 +5,7 @@
 
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
     <script type="text/javascript" src="signup%20page.js">
     </script>
     <link rel="stylesheet" href="signup%20page.css">
@@ -21,31 +22,31 @@
 
         <h2 class="fs-title">Fill in your details</h2>
         <!--TODO: required field-->
-        <input type="text" name="name" placeholder="Name"/>
-        <input type="text" name="NRIC" placeholder="NRIC"/>
-        <input type="email" name="email" placeholder="Email"/>
+        <input type="text" name="name" placeholder="Name" maxlength="30" class="signInput"/>
+        <input type="text" id="nricInput" name="NRIC" placeholder="NRIC" class="signInput"/>
+        <input type="email" name="email" placeholder="Email" class="signInput"/>
 
         <label>
-            <input list="companies" placeholder="Company">
+            <input list="companies" placeholder="Company" class="signInput">
         </label>
         <datalist id="companies">
             <option value="Singtel">
             <option value="M1">
             <option value="Starhub">
         </datalist>
-        <input type="number" name="shares" placeholder="Shares(0-1)"/>
-        <input type="button" name="next" class="next action-button" value="Next"/>
+        <input type="text" name="shares" placeholder="Shares(0-1)" class="signInput" id="shareInput"/>
+        <input type="button" name="next" class="next disabled-button" value="Next" disabled="true"  id="nextButton"/>
         </fieldset>
     <!--page 2-->
     <fieldset>
         <h2 class="fs-title">Authentication</h2>
-        <input type="tel" name="phone" placeholder="Mobile Phone Number"/>
-        <input type="button" name="cueOTP" class="send-message-button" value="Send Me One-Time Password"/>
+        <input type="tel" id="phoneNumber" name="phone" placeholder="Mobile Phone Number"/>
+        <input type="button" name="cueOTP" id="phoneButton" class="send-message-button" value="Send Me One-Time Password"/>
         <!--onclick of the button, an authy code will be sent to the phone-->
 
-        <input type="number" name="OTP" placeholder="Enter One-Time Password"/>
+        <input type="text" id="otpNumber"  name="OTP" placeholder="Enter One-Time Password"/>
         <input type="button" name="previous" class="previous action-button" value="Previous"/>
-        <input type="button" name="next" class="next action-button" value="Next"/>
+        <input type="button" id="submitButton" name="next" disabled="disabled" class="next disabled-button" value="Next"/>
         <!--in the final product, once OTP is right, it will go to the next page automatically without the Next button-->
 
     </fieldset>

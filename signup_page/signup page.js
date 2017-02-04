@@ -86,4 +86,34 @@ $(document).ready(function() {
 
     $('.check').css('stroke-dashoffset', 0);
 
+    $('#phoneNumber').mask('9999 9999');
+
+    $('#otpNumber').mask('9999');
+
+    $('#phoneButton').click(function(e) {
+        $('#submitButton').prop('disabled',false).toggleClass('disabled-button action-button',500,'easeOutBounce');
+    });
+
+    $('#nricInput').mask('S0000000S');
+
+    $('#shareInput').mask('9');
+
+    $('.signInput').keyup(function() {
+        var filled = true;
+        $('.signInput').each(function() {
+            console.log($(this).val().length);
+            if ($(this).val().length == 0) {
+                filled = false;
+            } 
+        });
+
+        console.log(filled);
+
+        if (!filled) {
+            $('#nextButton').prop('disabled',true).removeClass('action-button').addClass('disabled-button',500);
+        } else {
+            $('#nextButton').prop('disabled',false).removeClass('disabled-button').addClass('action-button',500);
+        }
+    })
+
 });
