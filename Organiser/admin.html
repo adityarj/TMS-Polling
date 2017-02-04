@@ -126,28 +126,28 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </div>
 
 <script>
-// Get the Sidenav
-var mySidenav = document.getElementById("mySidenav");
+  // Get the Sidenav
+  var mySidenav = document.getElementById("mySidenav");
 
-// Get the DIV with overlay effect
-var overlayBg = document.getElementById("myOverlay");
+  // Get the DIV with overlay effect
+  var overlayBg = document.getElementById("myOverlay");
 
-// Toggle between showing and hiding the sidenav, and add overlay effect
-function w3_open() {
-    if (mySidenav.style.display === 'block') {
-        mySidenav.style.display = 'none';
-        overlayBg.style.display = "none";
-    } else {
-        mySidenav.style.display = 'block';
-        overlayBg.style.display = "block";
-    }
-}
+  // Toggle between showing and hiding the sidenav, and add overlay effect
+  function w3_open() {
+      if (mySidenav.style.display === 'block') {
+          mySidenav.style.display = 'none';
+          overlayBg.style.display = "none";
+      } else {
+          mySidenav.style.display = 'block';
+          overlayBg.style.display = "block";
+      }
+  }
 
-// Close the sidenav with the close button
-function w3_close() {
-    mySidenav.style.display = "none";
-    overlayBg.style.display = "none";
-}
+  // Close the sidenav with the close button
+  function w3_close() {
+      mySidenav.style.display = "none";
+      overlayBg.style.display = "none";
+  }
 </script>
 
 </body>

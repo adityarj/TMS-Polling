@@ -4,4 +4,4 @@
 $(document).ready(function() {
 	$('#LoginOTPField').mask('9999');
 	$('#LoginNRICField').mask('S0000000S');
-}); 
+});
