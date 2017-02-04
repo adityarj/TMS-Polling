@@ -73,7 +73,7 @@
       
       loginForm.addEventListener('submit', function() {
         event.preventDefault();
-        var params = 'email=' + emailField.value + '&password=' + passwordField.value;
+        var params = 'username=' + emailField.value + '&password=' + passwordField.value;
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
