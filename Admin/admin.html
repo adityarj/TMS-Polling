@@ -8,13 +8,14 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet/less" type="text/css" href="admin.less">
   
 
   <link rel="stylesheet" href="https://cdn.concisecss.com/concise.min.css">
   <link rel="stylesheet" href="https://cdn.concisecss.com/concise-ui/concise-ui.min.css">
   <link rel="stylesheet" href="https://cdn.concisecss.com/concise-utils/concise-utils.min.css">
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="admin.js"></script>
 
@@ -23,11 +24,24 @@
 <body>
 	<div container>
 		<div grid>
-			<div column = "10" class="_bg-red-lighter">
+			<div column = "6" class="_bg-red-lighter">
 				Admin Panel
 			</div>
-			<div column = "2"  class="_bg-red-lighter">
-				<button class="-danger">Log out</button>
+			<div column = "6"  class="_bg-red-lighter">
+				<div class="form-item">
+					<label for="adminInput">Username</label>
+					<input id="adminInput" type="text" placeholder="Username"></input>
+				</div>
+				<div class="form-item">
+					<label for="passwordInput" >Password</label>
+					<input id="passwordInput" type="Password" placeholder="Password"></input>
+				</div>	
+				<div class="form-item">
+					<button class="-error" id="logButton">
+						Log in
+					</button>
+				</div>
+				
 			</div>
 		</div>
 		<div grid>
