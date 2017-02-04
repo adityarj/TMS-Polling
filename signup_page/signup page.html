@@ -1,8 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- multistep form -->
 <form id="msform">
-
-
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
@@ -25,7 +23,6 @@
         <input type="text" name="name" placeholder="Name" maxlength="30" class="signInput"/>
         <input type="text" id="nricInput" name="NRIC" placeholder="NRIC" class="signInput"/>
         <input type="email" name="email" placeholder="Email" class="signInput"/>
-
         <label>
             <input list="companies" placeholder="Company" class="signInput">
         </label>
@@ -34,7 +31,7 @@
             <option value="M1">
             <option value="Starhub">
         </datalist>
-        <input type="text" name="shares" placeholder="Shares(0-1)" class="signInput" id="shareInput"/>
+        <input type="number" name="shares" placeholder="Shares" class="signInput" id="shareInput"/>
         <input type="button" name="next" class="next disabled-button" value="Next" disabled="true"  id="nextButton"/>
         </fieldset>
     <!--page 2-->
@@ -66,6 +63,6 @@
 
             <p>You are done!</p>
         </div>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
+
     </fieldset>
 </form>

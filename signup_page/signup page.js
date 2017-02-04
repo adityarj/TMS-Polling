@@ -96,7 +96,7 @@ $(document).ready(function() {
 
     $('#nricInput').mask('S0000000S');
 
-    $('#shareInput').mask('9');
+    // $('#shareInput').mask('999');
 
     $('.signInput').keyup(function() {
         var filled = true;

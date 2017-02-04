@@ -17,8 +17,11 @@
 
         <h2 class="fs-title w3-animate-top">Welcome to TMS Polling</h2>
         <hr>
-        <h3 class="fs-subtitle w3-animate-top" >If you have received the one-time password sent to your phone:</h3>
-        <input type="button" name="login" class="action-button w3-animate-top" value="Log In" onclick="document.getElementById('login-content').style.display='block'"/>
+        <input type="text" class="w3-animate-top" name="NRIC" placeholder="Enter NRIC" id="LoginNRICField"/>
+        <input type="text" class="w3-animate-top" name="OTP" placeholder="Enter One-Time Password" id="LoginOTPField"/>
+        <!--<a class="action-button w3-animate-top" onclick="document.getElementById('login-content').style.display='none'" href="http://localhost:63343/untitled/voting%20page/voting_page.html?_ijt=sd7da2gkkctt0cc8kaa6hdvkil">Log In </a>-->
+        <a href="http://localhost:63343/untitled/voting%20page/voting_page.html?_ijt=sd7da2gkkctt0cc8kaa6hdvkil"><input type="button" name="login" class="action-button w3-animate-top" value="Log In" /></a>
+        <hr>
         <h3 class="fs-subtitle w3-animate-top">If you have not registered your information:</h3>
         <!--TODO:change the temporary url to a functional url-->
         <a href="http://localhost:63343/untitled/signup%20page/signup%20page.html?_ijt=fufunodcfrcm5meemsue9errme"><input type="button" name="signup" class="action-button w3-animate-top" value="Sign Up" /></a>
@@ -31,8 +34,8 @@
                 <span onclick="document.getElementById('login-content').style.display='none'" class="w3-right w3-xxlarge w3-closebtn"><i class="fa fa-remove"></i></span>
             </div>
             <div class="w3-panel">
-                <input type="text" name="NRIC" placeholder="Enter NRIC" id="LoginNRICField"/>
-                <input type="text" name="OTP" placeholder="Enter One-Time Password" id="LoginOTPField"/>
+                <!--<input type="text" name="NRIC" placeholder="Enter NRIC" id="LoginNRICField"/>-->
+                <!--<input type="text" name="OTP" placeholder="Enter One-Time Password" id="LoginOTPField"/>-->
                 <div class="w3-section">
                     <a class="cancel-button" onclick="document.getElementById('login-content').style.display='none'">Cancel </a>
                     <a class="action-button" onclick="document.getElementById('login-content').style.display='none'" href="http://localhost:63343/untitled/voting%20page/voting_page.html?_ijt=sd7da2gkkctt0cc8kaa6hdvkil">Log In </a>
