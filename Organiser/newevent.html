@@ -6,7 +6,17 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="./cssforform.css"> 
+<link rel="stylesheet" type="text/css" href="./cssforform.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--button-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--calendar-->
+<link rel="stylesheet" href="build/kalendae.css" type="text/css" charset="utf-8">
+<script src="build/kalendae.standalone.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+    window.moment = Kalendae.moment;
+</script>
 
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -67,30 +77,29 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <span>Event Name :</span>
         <input id="name" type="text" name="name" placeholder="Name of Event" />
     </label>
-    
+
     <label>
-        <span>Additional Information :</span>
-        <input id="email" type="text" name="question" placeholder="For shareholders" />
+      <span>Date :</span>
+      <input type="text"  class="auto-kal"  />
+    </label>
+    <hr>
+    <a href="#" class="btn btn-info btn-sm" id=addqn>
+      <span class="glyphicon glyphicon-plus-sign" ></span> Add a question
+    </a>
+    <label>
+      <span>Question:</span>
+      <input  type="text" name="q1"  />
     </label>
             
      <label>
-        <span>&nbsp;</span> 
-        <input type="button" class="button" value="Send" /> 
+        <input type="button" class="btn btn-danger btn-lg" value="Create" id="createbutton"/>
     </label>    
-  <!-- <label>
-      <span>Event Name:</span>
-      <input id="event" type="text" name="firstname">
-  </label>
+
   
-  <label>
-        <span>Question to ask:</span>
-        <input id="clarifications" type="text" name="lastname" placeholder="Any Clarifications">
-  </label>
+
   <br>
   <br>
-  <label>
-    <input  class="button" type="submit" value="Submit">
-  </label> -->
+
   
 </form> 
 <!-- </div> -->
@@ -113,6 +122,7 @@ var mySidenav = document.getElementById("mySidenav");
 
 // Get the DIV with overlay effect
 var overlayBg = document.getElementById("myOverlay");
+var qnNumber=1;
 
 // Toggle between showing and hiding the sidenav, and add overlay effect
 function w3_open() {
@@ -135,6 +145,16 @@ function w3_close() {
 function alerter(){
 
 }
+$(document).ready(function(){
+$('#addqn').click(function () {
+    var number=qnNumber.toString();
+    $('#createbutton').before(" <label><span id=number>Question:</span> <input  type='text'  /> </label>");
+//    document.getElementById(number).innerHTML="Question"+number;
+
+
+
+})});
+
 </script>
 
 </body>
