@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Organisers</title>
+  </head>
+  <body>
+    <form id="login">
+      <label>Email</label>
+      <input type="text" name="email"  />
+      <label>Password</label>
+      <input type="password" name="password" />
+      <input type="submit" value="Login" />
+    </form>
+    <script>
+      var loginForm = document.querySelector('#login');
+      var emailField = document.querySelector('input[name="email"]');
+      var passwordField = document.querySelector('input[name="password"]');
+      var url = 'http://10.12.54.167:8080/api/organiser/authenticate/login';
+      
+      loginForm.addEventListener('submit', function() {
+        event.preventDefault();
+        var params = 'email=' + emailField.value + '&password=' + passwordField.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              window.location = '/Organiser/admin.html';
+            } else if (xhr.status === 403) {
+              alert('Wrong credentials!');
+            } else if (xhr.status === 500) {
+              alert('Server Error!');
+            }
+          }
+        }
+        xhr.send(params);
+      });
+    </script>
+  </body>
+</html>
