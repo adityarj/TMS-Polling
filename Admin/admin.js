@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var prefix = 'http://10.12.54.167:8080/api/';
+	var prefix = 'https://tms-polling.herokuapp.com/api/';
 	var password;
 	var username;
 
@@ -42,9 +42,11 @@ $(document).ready(function() {
 				});
 
 				var card = '<div class="card-box"><div class="card-content"><h3 class="title">'+value.name+
-								'</h3><div grid><div column="11"><p class="content">'+dropdown+'</p></div>'+
-								'<div column="1"><button class="-error handleDelete" id="cmp'+value.id+'"><i class="fa fa-times" aria-hidden="true"></i>'+
-								'</button></div></div></div></div></div>';
+								'</h3><div grid><div column="11"><p class="content">'+dropdown+'</p></div></div></div>'+
+								'<div class="footer">'+
+								'<div grid><div column = "10"></div><div column="2">'+
+								'<p>Delete an entry<button class="-error handleDelete" id="cmp'+value.id+'"><i class="fa fa-times" aria-hidden="true"></i></div>'+
+								'</button></div></div></div>';
 				
 
 				$('#adminPanel').append(card);
