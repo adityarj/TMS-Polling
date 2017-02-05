@@ -44,8 +44,8 @@ $(document).ready(function() {
 				var card = '<div class="card-box"><div class="card-content"><h3 class="title">'+value.name+
 								'</h3><div grid><div column="11"><p class="content">'+dropdown+'</p></div></div></div>'+
 								'<div class="footer">'+
-								'<div grid><div column = "10"></div><div column="2">'+
-								'<p>Delete an entry<button class="-error handleDelete" id="cmp'+value.id+'"><i class="fa fa-times" aria-hidden="true"></i></div>'+
+								'<div grid><div column = "11">'+value.id+'</div><div column="1">'+
+								'<p><button class="-error handleDelete" id="cmp'+value.id+'"><i class="fa fa-times" aria-hidden="true"></i></div>'+
 								'</button></div></div></div>';
 				
 
