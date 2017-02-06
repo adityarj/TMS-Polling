@@ -75,6 +75,7 @@ $(document).ready(function() {
 			},
 			error: function(data) {
 				console.log(data);
+				getData();
 			}
 		});
 
@@ -95,6 +96,14 @@ $(document).ready(function() {
 				email: $('#add'+id).val(),
 				company_id: id
 			},
+			success: function() {
+				console.log('sucess');
+				getData();
+			},
+			error: function(data) {
+				console.log(data);
+				getData();
+			},
 		})
 	})
 
@@ -105,12 +114,15 @@ $(document).ready(function() {
 		$.ajax({
 			url: prefix + 'admin/company/'+id+'?admin='+username+'&basicPassword='+password,
 			type: 'DELETE',
-			crossDomain: true
+			crossDomain: true,
+			success: function() {
+				getData();
+			}
 		}).fail(function(e) {
 			console.log(e.responseText);
 		});
 
-		getData();
+		
 	});
 
 	//Delete an orgnaiser
@@ -118,8 +130,12 @@ $(document).ready(function() {
 		var id = this.id.substring(6,this.id.length);
 
 		$.ajax({
-			url: prefix + 'admin/organiser'+id+'admin='+username+'&basicPassword='+password,
-			type: 'DELETE'
+			url: prefix + 'admin/organiser/'+id+'?admin='+username+'&basicPassword='+password,
+			type: 'DELETE', 
+			success: function(data) {
+				console.log(data);
+				getData();
+			}
 		}).fail(function(e) {
 			console.log(e.responseText);
 		});
