@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
-	var prefix = 'https://tms-polling.herokuapp.com/api/';
+	var prefix = 'https://tms-polling.herokuapp.com/api/'; 
+	//"http://10.12.54.167:8080/api/";
+	
 	var password;
 	var username;
 
@@ -67,18 +69,21 @@ $(document).ready(function() {
 				basicPassword: password,
 				name: compName
 			},
-			success: function(data) {
+			success: function() {
 				console.log('success');
+				getData();
+			},
+			error: function(data) {
+				console.log(data);
 			}
 		});
 
-		getData();
 	});
 
 
 	//Add a new organiser
 	$(document).on('click','.orgAdd',function() {
-		var id = this.id.substring(6,id.length);
+		var id = this.id.substring(6,this.id.length);
 
 		$.ajax({
 			url: prefix + 'admin/organiser/',
@@ -99,7 +104,8 @@ $(document).ready(function() {
 
 		$.ajax({
 			url: prefix + 'admin/company/'+id+'?admin='+username+'&basicPassword='+password,
-			type: 'DELETE'
+			type: 'DELETE',
+			crossDomain: true
 		}).fail(function(e) {
 			console.log(e.responseText);
 		});
