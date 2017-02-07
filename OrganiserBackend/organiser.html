@@ -1,7 +1,7 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" ng-app="project">
 <head>
   <meta charset="utf-8">
 
@@ -22,5 +22,25 @@
 </head>
 
 <body>
-
+	<div class="row">
+		<div class="large-12 columns">
+			<div><h3>Organiser Panel</h3></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-5 columns">
+			<input type="text" id="username" ng-model="user.name" placeholder="Organiser Name"></input>
+		</div>
+		<div class="large-5 columns">
+			<input type="password" id="password" ng-model="user.password" placeholder="Password"></input>
+		</div>
+		<div class="large-2 columns">
+			<button type="button" class="button success expanded" ng-click="handleLogin">Login</button>
+		</div>
+	</div>
+	<div class="row">
+		{{user}}
+	</div>
 </body>
+
+</html>
