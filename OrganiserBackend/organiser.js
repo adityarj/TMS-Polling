@@ -6,7 +6,7 @@ var prefix = 'https://tms-polling.herokuapp.com/api/';
 //Handles the login function
 app.controller('LoginController', ['$rootScope','$scope', '$http', function ($rootScope,$scope,$http) {
 
-	$scope.loginStatus = false;
+	$rootScope.loginStatus = false;
 
 	$scope.handleLogin = function() {
 
@@ -21,7 +21,7 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 			$rootScope.token = e.data.token;
 			$rootScope.$broadcast('LoggedIn');
 
-			$scope.loginStatus = true;
+			$rootScope.loginStatus = true;
 
 		}, function error(error) {
 			console.log("error");
@@ -31,56 +31,52 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 
 	$scope.handleLogout = function() {
 
-		$http({
-			method: 'GET',
-			url: prefix + 'organiser/authenticate/logout',
-			data: $scope.user
-		}).then(function success(data) {
-			console.log(data);
-			$rootScope.broadcast('LoggedOut');
-			$scope.loginStatus = false;
-		}, function error (error) {
-			console.log("error");
-		});
-	}
-		
+		$rootScope.$broadcast('LoggedOut');
+		$rootScope.loginStatus = false;
+		$scope.user = null;
+
+	};
 }]);
 
-
 //Handles voter related operations
-app.controller('VoterList', ['$rootScope','$scope','$http', function ($rootScope,$scope,$http) {
+app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function ($rootScope,$scope,$http,$timeout) {
 
-	$scope.regVoters = null;
-	$scope.unregVoters = null;
+	$scope.regVoters = [];
+	$scope.unregVoters = [];
 
 	$rootScope.$on('LoggedIn',function(val) {
 
-		$http({
-			method: 'GET',
-			url: prefix + 'organiser/voter/all',
-			params: {
-				token: $rootScope.token
-			}
-		}).then(function success(e) {
-			console.log(e);
-
-			$scope.regVoters = e.data.map(function(voter) {
-				if (voter.registered) {
-					return voter;
+		(function tick() {
+			$http({
+				method: 'GET',
+				url: prefix + 'organiser/voter/all',
+				params: {
+					token: $rootScope.token
 				}
-			});
+			}).then(function success(e) {
+				console.log(e);
+				$scope.regVoters = [];
+				$scope.unregVoters = [];
+				e.data.forEach(function(voter) {
+					if (voter.organiser_verified) {
+						$scope.regVoters.push(voter);
+					} else {
+						$scope.unregVoters.push(voter);
+					}
+				});
 
-			$scope.unregVoters = e.data.map(function(voter) {
-				if (!voter.registered) {
-					return voter;
-				}
-			});
+				$scope.timeout = $timeout(tick,2000);
 
-		}, function error (error) {
-			console.log("error")
-		});
+			}, function error (error) {
+				console.log("error")
+			});
+		})();
 
 	});
+
+	$rootScope.$on('LoggedOut',function(val) {
+		$timeout.cancel($scope.timeout);
+	})
 
 	//Delete a voter
 	$scope.handleDelete = function(voter) {
@@ -95,13 +91,28 @@ app.controller('VoterList', ['$rootScope','$scope','$http', function ($rootScope
 			console.log(data);
 		}, function error (error) {
 			console.log("error");
-		})
+		});
+	}
+
+	$scope.handleRegister = function(voter) {
+
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/voter/' + voter.id,
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
+		},function error(error) {
+			console.log("error");
+		});
 	}
 
 }]);
 
 //Handles all event related stuff, including questions and choices.
-app.controller('EventList', ['$rootScope','$scope', '$http' function ($rootScope, $scope, $http) {
+app.controller('EventList', ['$rootScope','$scope', '$http', function ($rootScope, $scope, $http) {
 
 	$scope.events = null;
 
@@ -132,5 +143,5 @@ app.controller('EventList', ['$rootScope','$scope', '$http' function ($rootScope
 			console.log(data);
 		});
 
-	};
-}])
+	}
+}]);

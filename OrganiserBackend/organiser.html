@@ -41,25 +41,50 @@
 			<div>{{user}}</div>
 		</div>
 		<div ng-hide="!loginStatus">
-			<div class="large-10 columns">
+			<div class="large-5 columns">
+				<input type="password" id="password_reset" ng-model="password.old" placeholder="Enter old Password">
+			</div>
+			<div class="large-2 columns">
+				<button type="button" class="button success expanded" ng-click="handleReset()">Reset Password</button>
+			</div>
+			<div class="large-3 columns">
 			</div>
 			<div class="large-2 columns">
 				<button type="button" class="button success expanded" ng-click="handleLogout()">Log Out</button>
 			</div>
+		</div>
 	</div>
-	<div class="row" ng-controller="VoterList">
-		<div class="columns">
-			<div class="callout secondary" ng-repeat="unregVoter in unregVoters">
-				<h5>{{voter.email}}</h5>
-				<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
-					<i class="icon-remove-sign"></i>
-				</button>
-			</div>
-			<div class="callout secondary" ng-repeat="regVoter in regVoters">
-				<h5>{{voter.email}}</h5>
-				<button class="close-button" type="button" ng-click="handleDelete(regVoter)">
-					<i class="icon-remove-sign"></i>
-				</button>
+	<div class="row" ng-controller="VoterList" ng-show="loginStatus">
+		<div>
+			<div class="large-12 columns">
+				<div class="header">
+					<h4>Unregistered Voters</h4>
+				</div>
+				<div class="callout secondary" ng-repeat="unregVoter in unregVoters track by $index">
+					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span><span class="label primary voterNameSpan">{{unregVoter.nric}}</span><span class="label secondary">{{unregVoter.shares}}</span>
+					<button class="close-button tickButton" type="button" ng-click="handleRegister(unregVoter)" >
+						<i class="fa fa-check" aria-hidden="true"></i>
+					</button>
+					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="callout success" ng-show="!unregVoters.length">
+					All Voters Registered!
+				</div>
+				<div class="header">
+					<h4>Registered Voters</h4>
+				</div>
+				<div class="callout secondary" ng-repeat="regVoter in regVoters track by $index">
+					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span><span class="label primary voterNameSpan">{{unregVoter.nric}}</span><span class="label secondary">{{unregVoter.shares}}</span>
+					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="callout warning" ng-show="!regVoters.length">
+					No Registered Voters!
+				</div>
+				
 			</div>
 		</div>
 	</div>
