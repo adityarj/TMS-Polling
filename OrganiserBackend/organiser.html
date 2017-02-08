@@ -41,8 +41,17 @@
 	</div>
 	<div class="row" ng-controller="VoterList">
 		<div class="columns">
-			<div class="callout secondary" ng-repeat="voter in voters">
+			<div class="callout secondary" ng-repeat="unregVoter in unregVoters">
 				<h5>{{voter.email}}</h5>
+				<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+					<i class="icon-remove-sign"></i>
+				</button>
+			</div>
+			<div class="callout secondary" ng-repeat="regVoter in regVoters">
+				<h5>{{voter.email}}</h5>
+				<button class="close-button" type="button" ng-click="handleDelete(regVoter)">
+					<i class="icon-remove-sign"></i>
+				</button>
 			</div>
 		</div>
 	</div>
