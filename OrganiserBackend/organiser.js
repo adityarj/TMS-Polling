@@ -6,6 +6,8 @@ var prefix = 'https://tms-polling.herokuapp.com/api/';
 //Handles the login function
 app.controller('LoginController', ['$rootScope','$scope', '$http', function ($rootScope,$scope,$http) {
 
+	$scope.loginStatus = false;
+
 	$scope.handleLogin = function() {
 
 		$http({
@@ -18,6 +20,8 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 
 			$rootScope.token = e.data.token;
 			$rootScope.$broadcast('LoggedIn');
+
+			$scope.loginStatus = true;
 
 		}, function error(error) {
 			console.log("error");
@@ -34,6 +38,7 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 		}).then(function success(data) {
 			console.log(data);
 			$rootScope.broadcast('LoggedOut');
+			$scope.loginStatus = false;
 		}, function error (error) {
 			console.log("error");
 		});
@@ -82,7 +87,10 @@ app.controller('VoterList', ['$rootScope','$scope','$http', function ($rootScope
 
 		$http({
 			method: 'DELETE',
-			url: prefix + 'organiser/voter/' + voter.id
+			url: prefix + 'organiser/voter/' + voter.id,
+			params: {
+				token: $rootScope.token
+			}
 		}).then(function success(data) {
 			console.log(data);
 		}, function error (error) {
@@ -91,3 +99,38 @@ app.controller('VoterList', ['$rootScope','$scope','$http', function ($rootScope
 	}
 
 }]);
+
+//Handles all event related stuff, including questions and choices.
+app.controller('EventList', ['$rootScope','$scope', '$http' function ($rootScope, $scope, $http) {
+
+	$scope.events = null;
+
+	$rootScope.$on('LoggedIn',function(val) {
+
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/event/all',
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(e) {
+			console.log(e);
+		}, function error(error) {
+			console.log(error);
+
+		});
+	});
+
+	$scope.handleEventDelete = function(event) {
+
+		$http({
+			method: 'DELETE',
+			url: prefix + 'organiser/event/' + event.inheritedData()
+		}).then(function success(data) {
+			console.log(data);
+		}, function error(data) {
+			console.log(data);
+		});
+
+	};
+}])
