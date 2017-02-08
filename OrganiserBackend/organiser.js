@@ -7,6 +7,7 @@ var prefix = 'https://tms-polling.herokuapp.com/api/';
 app.controller('LoginController', ['$rootScope','$scope', '$http', function ($rootScope,$scope,$http) {
 
 	$rootScope.loginStatus = false;
+	$scope.oldPasswordMatch = false;
 
 	$scope.handleLogin = function() {
 
@@ -36,6 +37,35 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 		$scope.user = null;
 
 	};
+
+	$scope.checkReset = function() {
+		if ($scope.user.password == $scope.password.old) {
+			$scope.oldPasswordMatch = true;
+		} 
+	}
+
+	$scope.handleReset = function() {
+		$http({
+			url: prefix + 'organiser/password',
+			method: 'POST',
+			data: $scope.password,
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(e) {
+			$rootScope.oldPasswordMatch = false;
+		}, function error(error) {
+			console.log("error");
+		});
+	}
+
+	$scope.revertReset = function() {
+
+		console.log("asfaf");
+		$scope.oldPasswordMatch = false;
+		$scope.password.old = null;
+		$scope.password.new = null;
+	}
 }]);
 
 //Handles voter related operations

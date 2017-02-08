@@ -41,13 +41,24 @@
 			<div>{{user}}</div>
 		</div>
 		<div ng-hide="!loginStatus">
-			<div class="large-5 columns">
+			<div class="large-5 columns" ng-show="!oldPasswordMatch">
 				<input type="password" id="password_reset" ng-model="password.old" placeholder="Enter old Password">
 			</div>
-			<div class="large-2 columns">
-				<button type="button" class="button success expanded" ng-click="handleReset()">Reset Password</button>
+			<div class="large-2 columns" ng-show="!oldPasswordMatch">
+				<button type="button" class="button success expanded" ng-click="checkReset()">Reset Password</button>
 			</div>
-			<div class="large-3 columns">
+			<div class="large-5 columns" ng-show="oldPasswordMatch">
+				<input type="password" id="new_password" ng-model="password.new" placeholder="Enter new Password">
+			</div>
+			<div class="large-2 columns" ng-show="oldPasswordMatch">
+				<button type="button" class="button warning expanded" ng-click="handleReset()">Confirm Reset</button>
+			</div>
+			<div class="large-2 columns" ng-show="oldPasswordMatch">
+				<button type="button" class="button success expanded" ng-click="revertReset()">Cancel</button>
+			</div>
+			<div class="large-3 columns" ng-show="!oldPasswordMatch">
+			</div>
+			<div class="large-1 columns" ng-show="oldPasswordMatch">
 			</div>
 			<div class="large-2 columns">
 				<button type="button" class="button success expanded" ng-click="handleLogout()">Log Out</button>
@@ -76,7 +87,7 @@
 					<h4>Registered Voters</h4>
 				</div>
 				<div class="callout secondary" ng-repeat="regVoter in regVoters track by $index">
-					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span><span class="label primary voterNameSpan">{{unregVoter.nric}}</span><span class="label secondary">{{unregVoter.shares}}</span>
+					<span class="voterNameSpan"><b>{{regVoter.name}}</b></span><span class="label primary voterNameSpan">{{regVoter.nric}}</span><span class="label secondary">{{regVoter.shares}}</span>
 					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
 						<i class="fa fa-times" aria-hidden="true"></i>
 					</button>
