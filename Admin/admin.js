@@ -9,7 +9,9 @@ $(document).ready(function() {
 	//Render the data after pulling from the server.
 	function getData() {
 
+
 		$('#adminPanel').empty();
+
 		
 		$.ajax({
 		url: prefix + 'admin/company/all',
@@ -22,14 +24,17 @@ $(document).ready(function() {
 		success: function(data) {
 			$.each(data,function(index,value) {
 
+
+
 				var list = '<ol>';
 				value.organisers.forEach(function(org) {
 					list+='<h4><li><span class="tag-box emailName">'+org.email+'</span><button class="-bordered -danger delOrg" id="orgdel'+org.id+'"><i class="fa fa-times" aria-hidden="true"></i></button></li></h4>';
 				})
 
+
 				list+='</ol>';
 
-				list+='<div grid><div column="11"><label for="add'+value.id+'">Add new organiser</label><input type="text" id="add'+value.id+'"placeholder="Organiser name"></input></div>'+
+				list+='<div grid><div column="11"><label for="add'+value.id+'">Add new organiser</label><input type="text" id="add'+value.id+'"placeholder="Organiser name"></div>'+
 						'<div column="1"><button class="-success -bordered orgAdd" id="butAdd'+value.id+'"><i class="fa fa-plus" aria-hidden="true"></i></button></div></div>';				
 
 				console.log(value);
@@ -51,8 +56,8 @@ $(document).ready(function() {
 	$('#logButton').click(function() {
 		password = $('#passwordInput').val();
 		username = $('#adminInput').val();
+		getData();
 
-		getData();		
 	});
 
 	//Add a new company

@@ -13,7 +13,7 @@ html {
 }
 
 body {
-    font-family: montserrat, arial, verdana, Helvetica Neue, serif;
+    font-family: montserrat, arial, verdana, Helvetica Neue, sans-serif;
 }
 /*form styles*/
 #main_page_form {
@@ -102,6 +102,14 @@ body {
     font-size: 13px;
     color: #666;
     margin-bottom: 5px;
+}
+.h2{
+    font-size: 20px;
+    font-family: Helvetica Neue,sans-serif;
+    text-transform: uppercase;
+    color: #2C3E50;
+    text: bold;
+    margin-bottom: 50px;
 }
 
 
