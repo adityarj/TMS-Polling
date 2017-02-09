@@ -48,12 +48,18 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 		$http({
 			url: prefix + 'organiser/password',
 			method: 'POST',
-			data: $scope.password,
+			data: {
+				oldPassword: $scope.password.old,
+				password: $scope.password.new
+			},
 			params: {
 				token: $rootScope.token
 			}
 		}).then(function success(e) {
-			$rootScope.oldPasswordMatch = false;
+			$scope.oldPasswordMatch = false;
+			$scope.password.old = null;
+			$scope.password.new = null;
+			console.log("ok");
 		}, function error(error) {
 			console.log("error");
 		});
@@ -84,7 +90,6 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 					token: $rootScope.token
 				}
 			}).then(function success(e) {
-				console.log(e);
 				$scope.regVoters = [];
 				$scope.unregVoters = [];
 				e.data.forEach(function(voter) {
@@ -142,36 +147,65 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 }]);
 
 //Handles all event related stuff, including questions and choices.
-app.controller('EventList', ['$rootScope','$scope', '$http', function ($rootScope, $scope, $http) {
+app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', function ($rootScope, $scope, $http,$timeout) {
 
-	$scope.events = null;
+	$scope.events = [];
+	$scope.time = null;
 
 	$rootScope.$on('LoggedIn',function(val) {
 
-		$http({
-			method: 'GET',
-			url: prefix + 'organiser/event/all',
-			params: {
-				token: $rootScope.token
-			}
-		}).then(function success(e) {
-			console.log(e);
-		}, function error(error) {
-			console.log(error);
-
-		});
+		(function tick() {
+			$http({
+				method: 'GET',
+				url: prefix + 'organiser/event/all',
+				params: {
+					token: $rootScope.token
+				}
+			}).then(function success(e) {
+				$scope.events = []
+				for (var i = 0; i<e.data.length; i+=2) {
+					$scope.events.push(e.data.slice(i,i+2));
+				}
+				console.log($scope.events);
+				$scope.time = $timeout(tick,5000000);
+			}, function error(error) {
+				console.log(error);
+			});
+		})();
 	});
+
+	$rootScope.$on('LoggedOut',function(val) {
+		$timeout.cancel($scope.time);
+	})
 
 	$scope.handleEventDelete = function(event) {
 
 		$http({
 			method: 'DELETE',
-			url: prefix + 'organiser/event/' + event.inheritedData()
+			url: prefix + 'organiser/event/' + event.id,
+			params: {
+				token: $rootScope.token
+			}
 		}).then(function success(data) {
 			console.log(data);
 		}, function error(data) {
 			console.log(data);
 		});
 
+	}
+
+	$scope.addQuestion = function(event) {
+
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/event/question',
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
+		}, function error(data) {
+			console.log(data);
+		});
 	}
 }]);

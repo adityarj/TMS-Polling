@@ -99,6 +99,52 @@
 			</div>
 		</div>
 	</div>
+	<div ng-controller="EventList" ng-show="loginStatus">
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="header">
+					<h4>Events</h4>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div ng-repeat="row in events" class="row">
+				<div class="large-6 columns" ng-repeat="event in row">
+					<div class="callout secondary">
+						<h5>{{event.name}} </h5>
+
+						<div class="row">
+							<div class="medium-1 columns">
+								<button class="button success tiny ">Start</button>
+							</div>
+							<div class="medium-1 columns">
+								<span class="label primary">Voters: {{event.voters.length}}</span>
+							</div>
+							<div class="medium-10 columns">
+							</div>
+						</div>
+						
+						<div ng-repeat="question in event.question">
+							{{question}}
+						</div>
+						<div>	
+							<div class="row">
+								<div class="medium-10 columns">
+									<input type="text" placeholder="Add question">
+								</div>
+								<div class="medium-2 columns">
+									<button type="button" class="hollow button success expanded" ng-click="addQuestion(event)">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
 </body>
 
 </html>
