@@ -10,7 +10,7 @@ $(document).ready(function() {
       url: baseUrl,
       method: 'POST',
       data: {
-        nric: $('input[name="NRIC"]').val().toLowerCase(),
+        nric: $('input[name="NRIC"]').val(),
         verifyCode: $('input[name="OTP"]').val()
       }
     }).done(function(res) {
