@@ -108,6 +108,17 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 			});
 		})();
 
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/results',
+			params: {
+				token: $rootScope.token,
+				eventId: 1
+			}
+		}).then(function success(data) {
+			console.log(data);
+		})
+
 	});
 
 	$rootScope.$on('LoggedOut',function(val) {

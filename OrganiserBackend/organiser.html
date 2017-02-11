@@ -160,7 +160,7 @@
 						</div>
 						
 						<div ng-repeat="each in event.questions track by $index">
-							<h6><b>{{$index + ". " + each.question}}</b></h6>
+							<h6><b>{{($index + 1) + ". " + each.question}}</b></h6>
 							<div ng-init="choices = transformQuadRow(each.choices)">
 								<div ng-repeat="row in choices" class="row">
 									<div class="medium-4 columns" ng-repeat="choice in row">
