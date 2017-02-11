@@ -3,7 +3,8 @@ import requests;
 import getpass;
 import json;
 
-baseUrl = "http://localhost:8080/api/";
+# baseUrl = "http://localhost:8080/api/";
+baseUrl = "https://tms-polling.herokuapp.com/api/";
 
 logged_in = False;
 event_id = False;
