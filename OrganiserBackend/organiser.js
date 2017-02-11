@@ -166,7 +166,6 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 
 	$scope.events = [];
 	$scope.time = null;
-	//$scope.choices = [[null,null]];
 
 	$rootScope.$on('LoggedIn',function(val) {
 
@@ -194,11 +193,11 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		$timeout.cancel($scope.time);
 	})
 
-	$scope.handleEventDelete = function(event) {
+	$scope.deleteEvent = function(eventId) {
 
 		$http({
 			method: 'DELETE',
-			url: prefix + 'organiser/event/' + event.id,
+			url: prefix + 'organiser/event/' + eventId,
 			params: {
 				token: $rootScope.token
 			}
@@ -254,16 +253,18 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 	}
 
 	$scope.startEvent = function(eventId) {
-		$http({
-			method: 'POST',
-			url: prefix + 'organiser/event/'+eventId+'/start',
-			params: {
-				token: $rootScope.token
-			}
-		}).then(function success(data) {
-			console.log(data);
-		}, function error(data) {
-			console.log('error');
-		});''
+
+		// $http({
+		// 	method: 'POST',
+		// 	url: prefix + 'organiser/event/'+eventId+'/start',
+		// 	params: {
+		// 		token: $rootScope.token
+		// 	}
+		// }).then(function success(data) {
+		// 	console.log(data);
+
+		// }, function error(data) {
+		// 	console.log('error');
+		// });
 	}
 }]);

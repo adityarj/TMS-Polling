@@ -110,13 +110,24 @@
 		<div>
 			<div ng-repeat="row in events" class="row">
 				<div class="large-6 columns" ng-repeat="event in row">
-					<div class="callout secondary">
-						<h5>{{event.name}} <span class="label secondary voterLabelText">Voters: {{event.voters.length}}</span></h5>
+					<div ng-class="{'callout secondary' : !event.started && !event.ended, 'callout alert': event.ended, 'callout success' : event.started}">
+						<div class="row">
+							<div class="medium-8 columns">
+								<h5>{{event.name}} <span class="label secondary voterLabelText">Voters: {{event.voters.length}}</span></h5>
+							</div>
+							<div class="medium-2 columns">
+								<button type="button" class="button alert hollow expanded" ng-click="deleteEvent(event.id)">
+									<i class="fa fa-minus" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+						
 
 						<div class="row">
 							<div class="medium-4 columns">
-								<button class="button success tiny" ng-click="startEvent(event.id)">Start</button>
-								<button class="button primary tiny" ng-click="addVoters(event.id)">Add voters</button>
+								<button class="button success tiny" ng-click="startEvent(event.id)" ng-hide="event.started">Start</button>
+								<button class="button error tiny" ng-click="endEvent(event.id)" ng-show="event.started && !event.ended">End</button>
+								<button class="button primary tiny" ng-click="addVoters(event.id)" ng-hide="event.ended">Add voters</button>
 							</div>
 							<div class="medium-8 columns">
 							</div>
@@ -130,7 +141,7 @@
 								</div>
 							</div>
 						</div>
-						<div ng-model="question">	
+						<div ng-model="question" ng-hide="event.started">	
 							<div class="row">
 								<div class="medium columns">
 									<div class="row">
