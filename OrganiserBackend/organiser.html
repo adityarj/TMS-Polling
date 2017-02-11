@@ -111,41 +111,60 @@
 			<div ng-repeat="row in events" class="row">
 				<div class="large-6 columns" ng-repeat="event in row">
 					<div class="callout secondary">
-						<h5>{{event.name}} </h5>
+						<h5>{{event.name}} <span class="label secondary voterLabelText">Voters: {{event.voters.length}}</span></h5>
 
 						<div class="row">
-							<div class="medium-1 columns">
-								<button class="button success tiny ">Start</button>
+							<div class="medium-4 columns">
+								<button class="button success tiny" ng-click="startEvent(event.id)">Start</button>
+								<button class="button primary tiny" ng-click="addVoters(event.id)">Add voters</button>
 							</div>
-							<div class="medium-1 columns">
-								<span class="label primary">Voters: {{event.voters.length}}</span>
-							</div>
-							<div class="medium-10 columns">
+							<div class="medium-8 columns">
 							</div>
 						</div>
 						
 						<div ng-repeat="question in event.question">
-							{{question}}
+							<h6><b>{{question}}</b></h6>
+							<div ng-repeat="row in question.choices | quadRow" class="row">
+								<div class="medium-3 columns" ng-repeat="choice in row">
+									{{choice}}
+								</div>
+							</div>
 						</div>
-						<div>	
+						<div ng-model="question">	
+							<div class="row">
+								<div class="medium columns">
+									<div class="row">
+										<div class="medium-3 columns">
+											<h6>New question</h6>
+										</div>
+										<div class="medium-2 columns">
+											<button class="button warning hollow tiny" type="button" ng-click="refreshQuestion(question)"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+										</div>
+										<div class="medium-7 columns">
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="row">
 								<div class="medium-10 columns">
 									<input type="text" placeholder="Add question" ng-model="question.prompt">
 								</div>
 								<div class="medium-2 columns">
-									<button type="button" class="hollow button success expanded" ng-click="addQuestion(question)">
+									<button type="button" class="hollow button success expanded" ng-click="addQuestion(question,event.id)">
 										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
 								</div>
 							</div>
-							<div class="row" ng-repeat="row in choices">
+							<div class="row" ng-init="question.choices = [[null,null]]">
+								<div ng-repeat="row in question.choices">
 								<div class="medium-5 columns" ng-repeat="choice in row track by $index">
-									<input type="text" placeholder="Choice {{$index + 1}}">
+									<input type="text" placeholder="Choice {{$index + 1}}" ng-model="row[$index]">
 								</div>
 								<div class="medium-2 columns">
-									<button type="button" class="hollow button secondary expanded" ng-click="addChoice(question.choice)">
+									<button type="button" class="hollow button secondary expanded" ng-click="addChoice(question.choices)">
 										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
+								</div>
 								</div>
 							</div>
 						</div>

@@ -147,12 +147,26 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 
 }]);
 
+//Filter to arrange the choices in a neater manner
+app.filter('quadRow',function() {
+
+	return function(input) {
+		var rows = [];
+
+		for (var i = 0; i<input.length; i+=4) {
+			rows.push(input.slice(i,i+=4));
+		}
+
+		return rows;
+	}
+})
+
 //Handles all event related stuff, including questions and choices.
 app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', function ($rootScope, $scope, $http,$timeout) {
 
 	$scope.events = [];
 	$scope.time = null;
-	$scope.choices = [[null,null]];
+	//$scope.choices = [[null,null]];
 
 	$rootScope.$on('LoggedIn',function(val) {
 
@@ -196,15 +210,28 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 
 	}
 
-	$scope.addQuestion = function(question) {
+	$scope.addQuestion = function(question,eventId) {
 
-		console.log(question);
+		var choices = [];
+
+		question.choices.forEach(function(row) {
+			row.forEach(function(choice) {
+				choices.push(choice);
+			});
+		});
+
+		console.log(eventId);
 
 		$http({
 			method: 'POST',
-			url: prefix + 'organiser/event/question',
+			url: prefix + 'organiser/question',
 			params: {
 				token: $rootScope.token
+			},
+			data: {
+				eventId: eventId,
+				question: question.prompt,
+				choices: this.choices
 			}
 		}).then(function success(data) {
 			console.log(data);
@@ -214,10 +241,29 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 	}
 
 	$scope.addChoice = function(choices) {
-		if ($scope.choices.slice(-1)[0][1]) {
-			$scope.choices.push([null]);
+		if (choices.slice(-1)[0][1]) {
+			choices.push([null]);
 		} else {
-			$scope.choices.slice(-1)[0].push(null);
+			choices.slice(-1)[0].push(null);
 		}
+	}
+
+	$scope.refreshQuestion = function(question) {
+		question.prompt = null;
+		question.choices = [[null,null]];
+	}
+
+	$scope.startEvent = function(eventId) {
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/event/'+eventId+'/start',
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
+		}, function error(data) {
+			console.log('error');
+		});''
 	}
 }]);
