@@ -2,7 +2,8 @@ var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
-var baseUrl = 'http://localhost:8080/api/voter';
+// var baseUrl = 'http://localhost:8080/api/voter';
+var baseUrl = 'http://tms-polling.herokuapp.com/api/voter';
 var token = localStorage.getItem('token');
 
 $(document).ready(function() {
@@ -64,6 +65,8 @@ $(document).ready(function() {
       });
     }
   });
+  
+  $(document).on('click', 'input[name="refresh"]', drawChart);
 });
 
 function transform_to_next() {
@@ -97,15 +100,14 @@ function transform_to_next() {
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
-  
   $.ajax({
     url: baseUrl + '/results?token=' + token,
     method: 'GET'
   }).done(function(res) {
+    $('#charts').html('');
     res.forEach(function(c, i) {
-      console.log(c)
       var html = '<h2 class="fs-title">' + c.question + '</h2>' +
-                 '<div id="piechart-' + i + '"></div>'
+                 '<div id="piechart-' + i + '"></div>';
       $('#charts').append(html);
       var votes = c.votes.reduce(function(sum, v) { 
         if (!sum[v.choice]) sum[v.choice] = 1;
@@ -113,7 +115,6 @@ function drawChart() {
         return sum;
       }, {});
       var data = [['Choice', 'Votes']].concat(c.choices.map(function(choice) { return [choice, 0] }));
-      console.log(data)
       Object.keys(votes).forEach(function(k) {
         data[parseInt(k)+1][1] = votes[k]
       });
@@ -122,5 +123,7 @@ function drawChart() {
       var chart = new google.visualization.PieChart(document.getElementById('piechart-' + i));
       chart.draw(data);
     });
+    $('#charts').append('<input type="button" name="refresh" class="action-button" value="Refresh" />');
   });
+  console.log('hello');
 }
