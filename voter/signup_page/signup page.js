@@ -3,7 +3,8 @@
  */
 
 //jQuery time
-var baseUrl = 'http://localhost:8080/api/voter';
+var baseUrl = 'https://tms-polling.herokuapp.com/api/voter';
+// var baseUrl = 'http://localhost:8080/api/voter';
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
@@ -38,7 +39,7 @@ $(document).ready(function() {
           }
         }).done(function() {
           $.ajax({
-            url: 'http://localhost:8080/api/voter/getcode',
+            url: baseUrl + '/getcode',
             method: 'POST',
             data: {
               countryCode: 65,

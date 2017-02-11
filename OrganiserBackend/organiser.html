@@ -28,32 +28,162 @@
 		</div>
 	</div>
 	<div class="row" ng-controller="LoginController">
-		<div class="large-5 columns">
-			<input type="text" id="username" ng-model="user.username" placeholder="Organiser Name"></input>
+		<div ng-hide="loginStatus">
+			<div class="large-5 columns">
+				<input type="text" id="username" ng-model="user.username" placeholder="Organiser Name"></input>
+			</div>
+			<div class="large-5 columns">
+				<input type="password" id="password" ng-model="user.password" placeholder="Password"></input>
+			</div>
+			<div class="large-2 columns">
+				<button type="button" class="button success expanded" ng-click="handleLogin()">Log In</button>
+			</div>
+			<div>{{user}}</div>
 		</div>
-		<div class="large-5 columns">
-			<input type="password" id="password" ng-model="user.password" placeholder="Password"></input>
+		<div ng-hide="!loginStatus">
+			<div class="large-5 columns" ng-show="!oldPasswordMatch">
+				<input type="password" id="password_reset" ng-model="password.old" placeholder="Enter old Password">
+			</div>
+			<div class="large-2 columns" ng-show="!oldPasswordMatch">
+				<button type="button" class="button success expanded" ng-click="checkReset()">Reset Password</button>
+			</div>
+			<div class="large-5 columns" ng-show="oldPasswordMatch">
+				<input type="password" id="new_password" ng-model="password.new" placeholder="Enter new Password">
+			</div>
+			<div class="large-2 columns" ng-show="oldPasswordMatch">
+				<button type="button" class="button warning expanded" ng-click="handleReset()">Confirm Reset</button>
+			</div>
+			<div class="large-2 columns" ng-show="oldPasswordMatch">
+				<button type="button" class="button success expanded" ng-click="revertReset()">Cancel</button>
+			</div>
+			<div class="large-3 columns" ng-show="!oldPasswordMatch">
+			</div>
+			<div class="large-1 columns" ng-show="oldPasswordMatch">
+			</div>
+			<div class="large-2 columns">
+				<button type="button" class="button success expanded" ng-click="handleLogout()">Log Out</button>
+			</div>
 		</div>
-		<div class="large-2 columns">
-			<button type="button" class="button success expanded" ng-click="handleLogin()">Login</button>
-		</div>
-		<div>{{user}}</div>
 	</div>
-	<div class="row" ng-controller="VoterList">
-		<div class="columns">
-			<div class="callout secondary" ng-repeat="unregVoter in unregVoters">
-				<h5>{{voter.email}}</h5>
-				<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
-					<i class="icon-remove-sign"></i>
-				</button>
-			</div>
-			<div class="callout secondary" ng-repeat="regVoter in regVoters">
-				<h5>{{voter.email}}</h5>
-				<button class="close-button" type="button" ng-click="handleDelete(regVoter)">
-					<i class="icon-remove-sign"></i>
-				</button>
+	<div class="row" ng-controller="VoterList" ng-show="loginStatus">
+		<div>
+			<div class="large-12 columns">
+				<div class="header">
+					<h4>Unregistered Voters</h4>
+				</div>
+				<div class="callout secondary" ng-repeat="unregVoter in unregVoters track by $index">
+					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span><span class="label primary voterNameSpan">{{unregVoter.nric}}</span><span class="label secondary">{{unregVoter.shares}}</span>
+					<button class="close-button tickButton" type="button" ng-click="handleRegister(unregVoter)" >
+						<i class="fa fa-check" aria-hidden="true"></i>
+					</button>
+					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="callout success" ng-show="!unregVoters.length">
+					All Voters Registered!
+				</div>
+				<div class="header">
+					<h4>Registered Voters</h4>
+				</div>
+				<div class="callout secondary" ng-repeat="regVoter in regVoters track by $index">
+					<span class="voterNameSpan"><b>{{regVoter.name}}</b></span><span class="label primary voterNameSpan">{{regVoter.nric}}</span><span class="label secondary">{{regVoter.shares}}</span>
+					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="callout warning" ng-show="!regVoters.length">
+					No Registered Voters!
+				</div>
+				
 			</div>
 		</div>
+	</div>
+	<div ng-controller="EventList" ng-show="loginStatus">
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="header">
+					<h4>Events</h4>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div ng-repeat="row in events" class="row">
+				<div class="large-6 columns" ng-repeat="event in row">
+					<div ng-class="{'callout secondary' : !event.started && !event.ended, 'callout alert': event.ended, 'callout success' : event.started}">
+						<div class="row">
+							<div class="medium-8 columns">
+								<h5>{{event.name}} <span class="label secondary voterLabelText">Voters: {{event.voters.length}}</span></h5>
+							</div>
+							<div class="medium-2 columns">
+								<button type="button" class="button alert hollow expanded" ng-click="deleteEvent(event.id)">
+									<i class="fa fa-minus" aria-hidden="true"></i>
+								</button>
+							</div>
+						</div>
+						
+
+						<div class="row">
+							<div class="medium-4 columns">
+								<button class="button success tiny" ng-click="startEvent(event.id)" ng-hide="event.started">Start</button>
+								<button class="button error tiny" ng-click="endEvent(event.id)" ng-show="event.started && !event.ended">End</button>
+								<button class="button primary tiny" ng-click="addVoters(event.id)" ng-hide="event.ended">Add voters</button>
+							</div>
+							<div class="medium-8 columns">
+							</div>
+						</div>
+						
+						<div ng-repeat="question in event.question">
+							<h6><b>{{question}}</b></h6>
+							<div ng-repeat="row in question.choices | quadRow" class="row">
+								<div class="medium-3 columns" ng-repeat="choice in row">
+									{{choice}}
+								</div>
+							</div>
+						</div>
+						<div ng-model="question" ng-hide="event.started">	
+							<div class="row">
+								<div class="medium columns">
+									<div class="row">
+										<div class="medium-3 columns">
+											<h6>New question</h6>
+										</div>
+										<div class="medium-2 columns">
+											<button class="button warning hollow tiny" type="button" ng-click="refreshQuestion(question)"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+										</div>
+										<div class="medium-7 columns">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="medium-10 columns">
+									<input type="text" placeholder="Add question" ng-model="question.prompt">
+								</div>
+								<div class="medium-2 columns">
+									<button type="button" class="hollow button success expanded" ng-click="addQuestion(question,event.id)">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+							<div class="row" ng-init="question.choices = [[null,null]]">
+								<div ng-repeat="row in question.choices">
+								<div class="medium-5 columns" ng-repeat="choice in row track by $index">
+									<input type="text" placeholder="Choice {{$index + 1}}" ng-model="row[$index]">
+								</div>
+								<div class="medium-2 columns">
+									<button type="button" class="hollow button secondary expanded" ng-click="addChoice(question.choices)">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </body>
 
