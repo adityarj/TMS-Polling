@@ -53,7 +53,8 @@ $(document).ready(function() {
 	}
 
 	//Login function
-	$('#logButton').click(function() {
+	$('#admin-login').submit(function() {
+		event.preventDefault();
 		password = $('#passwordInput').val();
 		username = $('#adminInput').val();
 		getData();
