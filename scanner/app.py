@@ -23,6 +23,9 @@ while event_id == False:
     r = requests.get(baseUrl + "organiser/event/current?token=" + token);
     if r.status_code == 200:
         data = json.loads(r.text)
+        if len(data) == 0:
+            print "There is no current event going on!"
+            sys.exit()
         for event in data:
             print str(event["id"]) + ". " + str(event["name"]);
         event_id = raw_input("Choose Event based on id: ");
