@@ -69,10 +69,16 @@
 		<div>
 			<div class="large-12 columns">
 				<div class="header">
-					<h4>Unregistered Voters</h4>
+					<div class="row">
+						<div class="medium-6 columns">
+							<h4>Unregistered Voters</h4>
+						</div>
+					</div>
 				</div>
 				<div class="callout secondary" ng-repeat="unregVoter in unregVoters track by $index">
-					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span><span class="label primary voterNameSpan">{{unregVoter.nric}}</span><span class="label secondary">{{unregVoter.shares}}</span>
+					<span class="voterNameSpan"><b>{{unregVoter.name}}</b></span>
+					<span class="label primary voterNameSpan">{{unregVoter.nric}}</span>
+					<span class="label secondary">{{unregVoter.shares}}</span>
 					<button class="close-button tickButton" type="button" ng-click="handleRegister(unregVoter)" >
 						<i class="fa fa-check" aria-hidden="true"></i>
 					</button>
@@ -84,12 +90,26 @@
 					All Voters Registered!
 				</div>
 				<div class="header">
-					<h4>Registered Voters</h4>
+					<div class="row">
+						<div class="medium-3 columns">
+							<h4>Registered Voters</h4>
+						</div>
+						<div class="medium-2 columns">
+							<button type="button" class="button primary hollow" ng-click="concludeAddVoter()" ng-show="activeEvent != null">
+								Done Adding
+							</button>
+						</div>
+					</div>
 				</div>
-				<div class="callout secondary" ng-repeat="regVoter in regVoters track by $index">
-					<span class="voterNameSpan"><b>{{regVoter.name}}</b></span><span class="label primary voterNameSpan">{{regVoter.nric}}</span><span class="label secondary">{{regVoter.shares}}</span>
-					<button class="close-button" type="button" ng-click="handleDelete(unregVoter)">
+				<div ng-class="activeVoters.indexOf(regVoter.id) != -1 ? 'callout success' : 'callout secondary'" ng-repeat="regVoter in regVoters track by $index">
+					<span class="voterNameSpan"><b>{{regVoter.name}}</b></span>
+					<span class="label primary voterNameSpan">{{regVoter.nric}}</span>
+					<span class="label secondary voterNameSpan">{{regVoter.shares}}</span>
+					<button class="close-button" type="button" ng-click="handleDelete(regVoter)" ng-hide="activeEvent != null">
 						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+					<button class="close-button" type="button" ng-show="activeVoters.indexOf(regVoter.id) == -1" ng-click="addVoterEvent(regVoter.id)">
+						+
 					</button>
 				</div>
 				<div class="callout warning" ng-show="!regVoters.length">
@@ -127,19 +147,22 @@
 							<div class="medium-4 columns">
 								<button class="button success tiny" ng-click="startEvent(event.id)" ng-hide="event.started">Start</button>
 								<button class="button error tiny" ng-click="endEvent(event.id)" ng-show="event.started && !event.ended">End</button>
-								<button class="button primary tiny" ng-click="addVoters(event.id)" ng-hide="event.ended">Add voters</button>
+								<button class="button primary tiny" ng-click="addVoters(event.id,event.voters)" ng-hide="event.ended">Add voters</button>
 							</div>
 							<div class="medium-8 columns">
 							</div>
 						</div>
 						
-						<div ng-repeat="question in event.question">
-							<h6><b>{{question}}</b></h6>
-							<div ng-repeat="row in question.choices | quadRow" class="row">
-								<div class="medium-3 columns" ng-repeat="choice in row">
-									{{choice}}
+						<div ng-repeat="each in event.questions track by $index">
+							<h6><b>{{$index + ". " + each.question}}</b></h6>
+							<div ng-init="choices = transformQuadRow(each.choices)">
+								<div ng-repeat="row in choices" class="row">
+									<div class="medium-4 columns" ng-repeat="choice in row">
+										{{choice}}
+									</div>
 								</div>
 							</div>
+							
 						</div>
 						<div ng-model="question" ng-hide="event.started">	
 							<div class="row">

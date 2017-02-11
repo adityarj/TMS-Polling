@@ -1,14 +1,15 @@
 @standard_pad: 10px;
 
-.form-item {
-	float: left;
-	margin: @standard_pad;
-	display: inline-block;
-	button {
-		margin-top: @standard_pad * 4;
-		margin-left: @standard_pad / 2;
-	}
-}
+//.form-item {
+//	float: left;
+//	margin: @standard_pad;
+//	display: inline-block;
+//	button {
+//		margin: auto;
+//		//margin-top: @standard_pad * 4;
+//		//margin-left: @standard_pad / 2;
+//	}
+//}
 
 #addButton {
 	margin-top: @standard_pad * 4;
@@ -28,4 +29,47 @@
 
 .orgAdd {
 	margin-top: 40px;
+}
+.topbar{
+	padding-left: 10px;
+	font-size: 20px;
+	color: white;
+	background-color: dimgrey;
+	position: absolute;
+	top:0;
+	width:100%;
+}
+
+#admin-login{
+	width: 500px;
+	margin: 100px auto auto;
+	text-align: center;
+	position: relative;
+	padding: 20px 30px;
+}
+#admin-login fieldset {
+	align-items: center;
+	border: 0 none;
+	border-radius: 3px;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 80%;
+	margin: 0 10%;
+	position: relative;
+
+}
+#admin-login input, textarea {
+	padding: 15px;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+}
+.heading{
+	font-size: 30px;
+	font-family: "Helvetica Neue LT Com";
+
 }

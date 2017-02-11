@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>TMS Polling - Admin Panel</title>
   <meta name="description" content="TMS Polling - Admin Panel">
@@ -23,43 +24,57 @@
 </head>
 
 <body>
-	<div container>
-		<div grid>
-			<div column = "5" class="_bg-red-lighter">
-				Admin Panel
-			</div>
-			<div column = "7"  class="_bg-red-lighter">
-				<div class="form-item">
-					<label for="adminInput">Username</label>
-					<input id="adminInput" type="text" placeholder="Username"></input>
-				</div>
-				<div class="form-item">
-					<label for="passwordInput" >Password</label>
-					<input id="passwordInput" type="Password" placeholder="Password"></input>
-				</div>	
-				<div class="form-item">
-					<button class="-error" id="logButton">
-						Log in
-					</button>
-				</div>
-				
-			</div>
+
+<div class="_bg-background-dark">
+	<!--<ul class="topbar">-->
+		<!--<li> TMS Polling</li>-->
+	<!--</ul>-->
+	<label class="_c-text-inverted topbar">TMS Polling</label>
+</div>
+
+<form id="admin-login">
+	<fieldset class="_bg-background-light">
+		<div class="heading">
+			Admin Panel
 		</div>
-		<div grid class="addNew">
-			<div column = "12" id = "adminPanel">
-				
+		<br>
+		<div>
+			<div>
+				<label for="adminInput">Username</label>
+				<input id="adminInput" type="text" placeholder="Username">
 			</div>
-		</div>
-		<div grid class="addNew">
-			<div column = "11" id = "addNewAdmin">
-				<label for="companyInput">Add new Company</label>
-				<input id="companyInput" type="text" placeholder="Company Name"></input>
+			<div>
+				<label for="passwordInput" >Password</label>
+				<input id="passwordInput" type="Password" placeholder="Password">
 			</div>
-			<div column = "1" >
-				<button class="-success" id = "addButton">
-					<i class="fa fa-plus" aria-hidden="true"></i>
+			<div>
+				<button class="-success" id="logButton">
+					Log in
 				</button>
 			</div>
+
 		</div>
+	</fieldset>
+
+
+</form>
+	<div container>
+
+		<div grid class="addNew">
+			<div column = "12" id = "adminPanel">
+
+			</div>
+		</div>
+		<!--<div grid class="addNew">-->
+			<!--<div column = "11" id = "addNewAdmin">-->
+				<!--<label for="companyInput">Add new Company</label>-->
+				<!--<input id="companyInput" type="text" placeholder="Company Name"></input>-->
+			<!--</div>-->
+			<!--<div column = "1" >-->
+				<!--<button class="-success" id = "addButton">-->
+					<!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+				<!--</button>-->
+			<!--</div>-->
+		<!--</div>-->
 	</div>
 </body>
