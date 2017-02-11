@@ -125,5 +125,4 @@ function drawChart() {
     });
     $('#charts').append('<input type="button" name="refresh" class="action-button" value="Refresh" />');
   });
-  console.log('hello');
 }

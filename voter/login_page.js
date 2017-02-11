@@ -1,4 +1,5 @@
-var baseUrl = 'http://localhost:8080/api/voter/authenticate/login';
+// var baseUrl = 'http://localhost:8080/api/voter/authenticate/login';
+var baseUrl = 'http://tms-polling.herokuapp.com/api/voter/authenticate/login';
 
 $(document).ready(function() {
 	$('#LoginOTPField').mask('9999');
