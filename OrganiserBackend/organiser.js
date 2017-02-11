@@ -92,6 +92,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 			}).then(function success(e) {
 				$scope.regVoters = [];
 				$scope.unregVoters = [];
+
 				e.data.forEach(function(voter) {
 					if (voter.organiser_verified) {
 						$scope.regVoters.push(voter);
@@ -151,6 +152,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 
 	$scope.events = [];
 	$scope.time = null;
+	$scope.choices = [[null,null]];
 
 	$rootScope.$on('LoggedIn',function(val) {
 
@@ -194,7 +196,9 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 
 	}
 
-	$scope.addQuestion = function(event) {
+	$scope.addQuestion = function(question) {
+
+		console.log(question);
 
 		$http({
 			method: 'POST',
@@ -207,5 +211,13 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		}, function error(data) {
 			console.log(data);
 		});
+	}
+
+	$scope.addChoice = function(choices) {
+		if ($scope.choices.slice(-1)[0][1]) {
+			$scope.choices.push([null]);
+		} else {
+			$scope.choices.slice(-1)[0].push(null);
+		}
 	}
 }]);

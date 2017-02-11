@@ -130,10 +130,20 @@
 						<div>	
 							<div class="row">
 								<div class="medium-10 columns">
-									<input type="text" placeholder="Add question">
+									<input type="text" placeholder="Add question" ng-model="question.prompt">
 								</div>
 								<div class="medium-2 columns">
-									<button type="button" class="hollow button success expanded" ng-click="addQuestion(event)">
+									<button type="button" class="hollow button success expanded" ng-click="addQuestion(question)">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+							<div class="row" ng-repeat="row in choices">
+								<div class="medium-5 columns" ng-repeat="choice in row track by $index">
+									<input type="text" placeholder="Choice {{$index + 1}}">
+								</div>
+								<div class="medium-2 columns">
+									<button type="button" class="hollow button secondary expanded" ng-click="addChoice(question.choice)">
 										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
 								</div>
