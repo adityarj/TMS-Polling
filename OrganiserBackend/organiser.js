@@ -130,6 +130,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 		});
 	}
 
+	//Handle registering a voter
 	$scope.handleRegister = function(voter) {
 
 		$http({
@@ -145,27 +146,59 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 		});
 	}
 
+	//Add voter to the event (pushed to server)
+	$scope.addVoterEvent = function(voterId) {
+		//Send http request to add voter
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/voter/join',
+			params: {
+				token: $rootScope.token
+			},
+			data: {
+				voterId: voterId,
+				eventId: $rootScope.activeEvent
+			}
+		}).then(function success(data) {
+			console.log(data);
+		}, function error(error) {
+			console.log(error);
+		});
+
+		$rootScope.activeVoters.push(voterId);
+	}
+
+	//Conclude adding voter, clear out temporary variables
+	$scope.concludeAddVoter = function() {
+		$rootScope.activeVoters = [];
+		$rootScope.activeEvent = eventId;
+	}
+
 }]);
 
 //Filter to arrange the choices in a neater manner
 app.filter('quadRow',function() {
 
 	return function(input) {
-		var rows = [];
 
+		var rows = [];
+		console.log(input);
 		for (var i = 0; i<input.length; i+=4) {
-			rows.push(input.slice(i,i+=4));
+			rows.push(input.slice(i,i+4));
 		}
 
 		return rows;
+
 	}
-})
+});
 
 //Handles all event related stuff, including questions and choices.
 app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', function ($rootScope, $scope, $http,$timeout) {
 
 	$scope.events = [];
 	$scope.time = null;
+	$rootScope.activeEvent = null;
+	$rootScope.activeVoters = [];
 
 	$rootScope.$on('LoggedIn',function(val) {
 
@@ -178,6 +211,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 				}
 			}).then(function success(e) {
 				$scope.events = []
+
 				for (var i = 0; i<e.data.length; i+=2) {
 					$scope.events.push(e.data.slice(i,i+2));
 				}
@@ -193,6 +227,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		$timeout.cancel($scope.time);
 	})
 
+	//Delete an event from the face of the earth
 	$scope.deleteEvent = function(eventId) {
 
 		$http({
@@ -209,6 +244,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 
 	}
 
+	//Add a new question
 	$scope.addQuestion = function(question,eventId) {
 
 		var choices = [];
@@ -222,15 +258,15 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		console.log(eventId);
 
 		$http({
-			method: 'POST',
-			url: prefix + 'organiser/question',
+			method: 'POST'
+,			url: prefix + 'organiser/question',
 			params: {
 				token: $rootScope.token
 			},
 			data: {
 				eventId: eventId,
 				question: question.prompt,
-				choices: this.choices
+				choices: choices
 			}
 		}).then(function success(data) {
 			console.log(data);
@@ -239,6 +275,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		});
 	}
 
+	//Add a new choice, change is locally saved
 	$scope.addChoice = function(choices) {
 		if (choices.slice(-1)[0][1]) {
 			choices.push([null]);
@@ -247,24 +284,52 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		}
 	}
 
+	//Refresh question choices
 	$scope.refreshQuestion = function(question) {
 		question.prompt = null;
 		question.choices = [[null,null]];
 	}
 
+
+	//Start Event
 	$scope.startEvent = function(eventId) {
 
-		// $http({
-		// 	method: 'POST',
-		// 	url: prefix + 'organiser/event/'+eventId+'/start',
-		// 	params: {
-		// 		token: $rootScope.token
-		// 	}
-		// }).then(function success(data) {
-		// 	console.log(data);
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/event/'+eventId+'/start',
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
 
-		// }, function error(data) {
-		// 	console.log('error');
-		// });
+		}, function error(data) {
+			console.log('error');
+		});
 	}
+
+	//Transformative controller
+	$scope.transformQuadRow = function(input) {
+		var rows = [];
+		for (var i = 0; i<input.length; i+=4) {
+			rows.push(input.slice(i,i+4));
+		}
+
+		console.log(rows);
+		return rows;
+	}
+
+	//This is a weird ass solution to add voters to the list 
+	$scope.addVoters = function(eventId,voters) {
+
+		console.log(eventId, voters);
+
+		$rootScope.activeVoters = [];
+		$rootScope.activeEvent = eventId;
+
+		voters.forEach(function (voter) {
+			$rootScope.activeVoters.push(voter.id);
+		})
+	}
+
 }]);
