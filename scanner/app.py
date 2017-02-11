@@ -29,7 +29,7 @@ while event_id == False:
 
 while 1:
     print "Please scan an IC";
-    line = sys.stdin.readline().rstrip()[:-9];
+    line = sys.stdin.readline().rstrip()[0:9];
     print "Scanned successfully. The ID is", line;
     r = requests.post(baseUrl + "voter/authenticate/otp", data={"nric": line, "eventId": event_id});
     if r.status_code == 200:
