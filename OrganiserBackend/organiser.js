@@ -360,6 +360,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		})
 	}
 
+	//Delete a question from an event
 	$scope.deleteQuestion = function(questId) {
 		$http({
 			method: 'DELETE',
@@ -375,4 +376,60 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		})
 	}
 
+	$scope.fetchResults = function(eventId) {
+
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/results',
+			params: {
+				token: $rootScope.token,
+				eventId: eventId
+			}
+		}).then(function success(e) {
+
+			var total = 0;
+
+			for (var i = 0; i<e.data.length;i++) {
+				for(var j = 0; j<e.data[i].votes; j++) {
+					total+=e.data[i].votes[j][1];
+				}
+			}
+
+			for (var i = 0; i<e.data.length;i++) {
+				for (var j=0; j<e.data[i].votes; j++) {
+					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
+				}
+			}
+
+		}, function error(error) {
+			console.log(error);
+		});
+
+		var sampleData = [
+			{
+				question: "Are you gay?",
+				votes: [
+					["Yes",0.333333],
+					["No",0.666666]
+				]
+			}
+		]
+
+		return sampleData;
+	}
+
+	var color = ['#d53e4f','#fc8d59','#fee08b','#e6f598','#99d594'];
+
+	$scope.computeStyle = function(value,index) {
+		return {
+			width: value * 500 + 'px',
+			background: color[index],
+			display: 'inline-block',
+			height: 30+'px',
+		};
+	}
+
+	$scope.roundValue = function(value) {
+		return Math.round(value * 100);
+	}
 }]);

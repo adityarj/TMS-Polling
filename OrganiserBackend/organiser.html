@@ -159,7 +159,7 @@
 							</div>
 						</div>
 						
-						<div ng-repeat="each in event.questions track by $index" class="callout primary">
+						<div ng-repeat="each in event.questions track by $index" class="callout primary" ng-hide="event.started">
 							<div class="row">
 								<div class="medium-10 columns">
 									<h6><b>{{($index + 1) + ". " + each.question}}</b></h6>
@@ -171,7 +171,7 @@
 								</div>
 							</div>
 							
-							<div ng-init="choices = transformQuadRow(each.choices)">
+							<div ng-init="choices = transformQuadRow(each.choices)" >
 								<div ng-repeat="row in choices" class="row">
 									<div class="medium-6 columns" ng-repeat="choice in row">
 										<li>{{choice}}</li>
@@ -179,6 +179,26 @@
 								</div>
 							</div>
 						</div>
+
+						<div ng-init="results = fetchResults(event.id)" ng-show="event.started">
+							<div class="callout primary" ng-repeat="question in results">
+								<div class="row">
+									<div class="medium columns">
+										{{question.question}}
+									</div>
+								</div>
+								<div class="row eachVis">
+									<div class="medium columns">
+										<div ng-repeat="vote in question.votes track by $index" style="display: inline-block;"> 
+											<div ng-style="computeStyle(vote[1], $index)">
+												<p class="graphLabel">{{vote[0] + " (" + roundValue(vote[1]) + "%)"}}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<div ng-model="question" ng-hide="event.started">	
 							<div class="row">
 								<div class="medium columns">
