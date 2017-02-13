@@ -159,16 +159,25 @@
 							</div>
 						</div>
 						
-						<div ng-repeat="each in event.questions track by $index">
-							<h6><b>{{($index + 1) + ". " + each.question}}</b></h6>
-							<div ng-init="choices = transformQuadRow(each.choices)">
-								<div ng-repeat="row in choices" class="row">
-									<div class="medium-4 columns" ng-repeat="choice in row">
-										{{choice}}
-									</div>
+						<div ng-repeat="each in event.questions track by $index" class="callout primary">
+							<div class="row">
+								<div class="medium-10 columns">
+									<h6><b>{{($index + 1) + ". " + each.question}}</b></h6>
+								</div>
+								<div class="medium-2 columns">
+									<button type="button" class="button warning hollow expanded tiny" ng-click="deleteQuestion(each.id)">
+										<i class="fa fa-minus-circle" aria-hidden="true"></i>
+									</button>
 								</div>
 							</div>
 							
+							<div ng-init="choices = transformQuadRow(each.choices)">
+								<div ng-repeat="row in choices" class="row">
+									<div class="medium-6 columns" ng-repeat="choice in row">
+										<li>{{choice}}</li>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div ng-model="question" ng-hide="event.started">	
 							<div class="row">
@@ -211,6 +220,28 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="medium columns">
+					<div class="callout warning" ng-show="!events.length">
+						No events currently!
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="medium columns">
+				<h5>Add New Event</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-10 columns">
+				<input type="text" placeholder="Add new event" ng-model="newEvent">
+			</div>
+			<div class="medium-2 columns">
+				<button type="button" class="button success expanded" ng-click="addEvent()">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+				</button>
 		</div>
 		
 	</div>
