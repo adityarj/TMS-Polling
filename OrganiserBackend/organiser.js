@@ -59,7 +59,7 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 			$scope.oldPasswordMatch = false;
 			$scope.password.old = null;
 			$scope.password.new = null;
-			console.log("ok");
+
 		}, function error(error) {
 			console.log("error");
 		});
@@ -67,7 +67,6 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 
 	$scope.revertReset = function() {
 
-		console.log("asfaf");
 		$scope.oldPasswordMatch = false;
 		$scope.password.old = null;
 		$scope.password.new = null;
@@ -107,6 +106,17 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 				console.log("error")
 			});
 		})();
+
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/results',
+			params: {
+				token: $rootScope.token,
+				eventId: 1
+			}
+		}).then(function success(data) {
+			console.log(data);
+		})
 
 	});
 
@@ -161,6 +171,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 			}
 		}).then(function success(data) {
 			console.log(data);
+			$rootScope.tick();
 		}, function error(error) {
 			console.log(error);
 		});
@@ -171,7 +182,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 	//Conclude adding voter, clear out temporary variables
 	$scope.concludeAddVoter = function() {
 		$rootScope.activeVoters = [];
-		$rootScope.activeEvent = eventId;
+		$rootScope.activeEvent = null;
 	}
 
 }]);
@@ -182,7 +193,6 @@ app.filter('quadRow',function() {
 	return function(input) {
 
 		var rows = [];
-		console.log(input);
 		for (var i = 0; i<input.length; i+=4) {
 			rows.push(input.slice(i,i+4));
 		}
@@ -199,11 +209,10 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 	$scope.time = null;
 	$rootScope.activeEvent = null;
 	$rootScope.activeVoters = [];
+	$scope.newEvent = null;
 
-	$rootScope.$on('LoggedIn',function(val) {
-
-		(function tick() {
-			$http({
+	$rootScope.tick = function() {
+		$http({
 				method: 'GET',
 				url: prefix + 'organiser/event/all',
 				params: {
@@ -215,17 +224,16 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 				for (var i = 0; i<e.data.length; i+=2) {
 					$scope.events.push(e.data.slice(i,i+2));
 				}
+
 				console.log($scope.events);
-				$scope.time = $timeout(tick,5000000);
 			}, function error(error) {
 				console.log(error);
 			});
-		})();
-	});
+	}
 
-	$rootScope.$on('LoggedOut',function(val) {
-		$timeout.cancel($scope.time);
-	})
+	$rootScope.$on('LoggedIn',function(val) {
+		$rootScope.tick();
+	});
 
 	//Delete an event from the face of the earth
 	$scope.deleteEvent = function(eventId) {
@@ -238,6 +246,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 			}
 		}).then(function success(data) {
 			console.log(data);
+			$rootScope.tick();
 		}, function error(data) {
 			console.log(data);
 		});
@@ -255,8 +264,6 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 			});
 		});
 
-		console.log(eventId);
-
 		$http({
 			method: 'POST'
 ,			url: prefix + 'organiser/question',
@@ -270,6 +277,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 			}
 		}).then(function success(data) {
 			console.log(data);
+			$rootScope.tick();
 		}, function error(data) {
 			console.log(data);
 		});
@@ -302,6 +310,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 			}
 		}).then(function success(data) {
 			console.log(data);
+			$rootScope.tick();
 
 		}, function error(data) {
 			console.log('error');
@@ -311,11 +320,10 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 	//Transformative controller
 	$scope.transformQuadRow = function(input) {
 		var rows = [];
-		for (var i = 0; i<input.length; i+=4) {
-			rows.push(input.slice(i,i+4));
+		for (var i = 0; i<input.length; i+=2) {
+			rows.push(input.slice(i,i+2));
 		}
 
-		console.log(rows);
 		return rows;
 	}
 
@@ -332,4 +340,96 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		})
 	}
 
+	//Add a new event to the organiser panel
+	$scope.addEvent = function() {
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/event',
+			params: {
+				token: $rootScope.token,
+			},
+			data: {
+				name: $scope.newEvent
+			}
+		}).then(function success(data) {
+			console.log(data);
+			$scope.newEvent = null;
+			$rootScope.tick();
+		}, function error(error) {
+			console.log(error);
+		})
+	}
+
+	//Delete a question from an event
+	$scope.deleteQuestion = function(questId) {
+		$http({
+			method: 'DELETE',
+			url: prefix + 'organiser/question/' + questId,
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
+			$rootScope.tick();
+		}, function error(error) {
+			console.log(error);
+		})
+	}
+
+	$scope.fetchResults = function(eventId) {
+
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/results',
+			params: {
+				token: $rootScope.token,
+				eventId: eventId
+			}
+		}).then(function success(e) {
+
+			var total = 0;
+
+			for (var i = 0; i<e.data.length;i++) {
+				for(var j = 0; j<e.data[i].votes; j++) {
+					total+=e.data[i].votes[j][1];
+				}
+			}
+
+			for (var i = 0; i<e.data.length;i++) {
+				for (var j=0; j<e.data[i].votes; j++) {
+					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
+				}
+			}
+
+		}, function error(error) {
+			console.log(error);
+		});
+
+		var sampleData = [
+			{
+				question: "Are you gay?",
+				votes: [
+					["Yes",0.333333],
+					["No",0.666666]
+				]
+			}
+		]
+
+		return sampleData;
+	}
+
+	var color = ['#d53e4f','#fc8d59','#fee08b','#e6f598','#99d594'];
+
+	$scope.computeStyle = function(value,index) {
+		return {
+			width: value * 500 + 'px',
+			background: color[index],
+			display: 'inline-block',
+			height: 30+'px',
+		};
+	}
+
+	$scope.roundValue = function(value) {
+		return Math.round(value * 100);
+	}
 }]);
