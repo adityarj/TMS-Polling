@@ -34,31 +34,32 @@
 		<!--</div>-->
 	<!--</div>-->
 
-<form id="organizer-login" ng-hide="loginStatus">
-	<fieldset class="_bg-background-light" ng-controller="LoginController"  >
-		<div class="heading">
-			Organizer Panel
-		</div>
-		<br>
-		<div>
-			<div>
-				<label>Username</label>
-				<input type="text" id="username1" ng-model="user.username" placeholder="Organiser Name"></input>
+<div ng-controller="LoginController">
+	<form id="organizer-login" ng-hide="loginStatus">
+		<fieldset class="_bg-background-light">
+			<div class="heading">
+				Organizer Panel
 			</div>
+			<br>
 			<div>
-				<label for="password1" >Password</label>
-				<input type="password" id="password1" ng-model="user.password" placeholder="Password">
+				<div>
+					<label>Username</label>
+					<input type="text" id="username1" ng-model="user.username" placeholder="Organiser Name"></input>
+				</div>
+				<div>
+					<label for="password1" >Password</label>
+					<input type="password" id="password1" ng-model="user.password" placeholder="Password">
+				</div>
+				<div>
+					<button type=button class="button success expanded" id="logButton" ng-click="handleLogin()">
+						Log in
+					</button>
+				</div>
 			</div>
-			<div>
-				<button type=button class="button success expanded" id="logButton" ng-click="handleLogin()">
-					Log in
-				</button>
-			</div>
-		</div>
-	</fieldset>
-</form>
+		</fieldset>
+	</form>
 
-	<div class="row" ng-controller="LoginController">
+	<div class="row">
 		<!--<div ng-hide="loginStatus">-->
 			<!--<div class="large-5 columns">-->
 				<!--<input type="text" id="username" ng-model="user.username" placeholder="Organiser Name"></input>-->
@@ -96,6 +97,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 	<div class="row" ng-controller="VoterList" ng-show="loginStatus">
 		<div>
 			<div class="large-12 columns">
