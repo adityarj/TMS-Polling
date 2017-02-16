@@ -10,10 +10,6 @@
   <meta name="author" content="Aditya Raju">
 
   <link rel="stylesheet/less" type="text/css" href="organiser.less">
-	<link rel="stylesheet" href="https://cdn.concisecss.com/concise.min.css">
-	<link rel="stylesheet" href="https://cdn.concisecss.com/concise-ui/concise-ui.min.css">
-	<link rel="stylesheet" href="https://cdn.concisecss.com/concise-utils/concise-utils.min.css">
-  
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -141,7 +137,7 @@
 					<button class="close-button" type="button" ng-click="handleDelete(regVoter)" ng-hide="activeEvent != null">
 						<i class="fa fa-times" aria-hidden="true"></i>
 					</button>
-					<button class="close-button" type="button" ng-show="activeVoters.indexOf(regVoter.id) == -1" ng-click="addVoterEvent(regVoter.id)">
+					<button class="close-button" type="button" ng-show="activeVoters.indexOf(regVoter.id) == -1 && activeEvent != null" ng-click="addVoterEvent(regVoter.id)">
 						+
 					</button>
 				</div>
@@ -217,7 +213,7 @@
 								<div class="row eachVis">
 									<div class="medium columns">
 										<div ng-repeat="vote in question.votes track by $index" style="display: inline-block;"> 
-											<div ng-style="computeStyle(vote[1], $index)">
+											<div ng-style="computeStyle(vote[1], $index)" ng-show="vote[1] != 0">
 												<p class="graphLabel">{{vote[0] + " (" + roundValue(vote[1]) + "%)"}}</p>
 											</div>
 										</div>

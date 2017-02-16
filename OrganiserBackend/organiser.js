@@ -235,14 +235,22 @@ app.service('results', ['$rootScope','$http', function ($rootScope,$http) {
 
 			//Finding total number of votes per question and adding them in
 			for (var i = 0; i<e.data.length;i++) {
-				for(var j = 0; j<e.data[i].votes; j++) {
+
+				console.log(e.data[i])
+
+				for(var j = 0; j<e.data[i].votes.length; j++) {
+					console.log(e.data[i].votes[j]);
 					total+=e.data[i].votes[j][1];
 				}
 
-				for (var j=0; j<e.data[i].votes; j++) {
-					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
-				}
+				if (total != 0) {
 
+					for (var j=0; j<e.data[i].votes.length; j++) {
+						e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
+					}
+
+				}
+				
 				total = 0;
 			}
 
@@ -333,6 +341,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 		}).then(function success(data) {
 			console.log(data);
 			$rootScope.tick();
+			setTimeout($rootScope.tick,2000);
 		}, function error(data) {
 			console.log(data);
 		});
@@ -364,6 +373,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 		}).then(function success(data) {
 			console.log(data);
 			$rootScope.tick();
+			setTimeout($rootScope.tick,2000);
 		}, function error(data) {
 			console.log(data);
 		});
@@ -397,12 +407,28 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 		}).then(function success(data) {
 			console.log(data);
 			$rootScope.tick();
-
+			setTimeout($rootScope.tick,2000);
 		}, function error(data) {
 			console.log('error');
 		});
 	}
 
+	$scope.endEvent = function(eventId) {
+
+		$http({
+			method: 'POST',
+			url: prefix + 'organiser/event/'+eventId+'/end',
+			params: {
+				token: $rootScope.token
+			}
+		}).then(function success(data) {
+			console.log(data);
+			$rootScope.tick();
+			setTimeout($rootScope.tick,2000);
+		}, function error(data) {
+			console.log('error');
+		});
+	}
 	//Transformative controller
 	$scope.transformQuadRow = function(input) {
 		var rows = [];
@@ -441,6 +467,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 			console.log(data);
 			$scope.newEvent = null;
 			$rootScope.tick();
+			setTimeout($rootScope.tick,2000);
 		}, function error(error) {
 			console.log(error);
 		})
@@ -457,6 +484,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 		}).then(function success(data) {
 			console.log(data);
 			$rootScope.tick();
+			setTimeout($rootScope.tick,2000);
 		}, function error(error) {
 			console.log(error);
 		})
