@@ -2,7 +2,6 @@ var app = angular.module('project', []);
 
 var prefix = 'https://tms-polling.herokuapp.com/api/';
 
-
 //Handles the login function
 app.controller('LoginController', ['$rootScope','$scope', '$http', function ($rootScope,$scope,$http) {
 
@@ -202,8 +201,61 @@ app.filter('quadRow',function() {
 	}
 });
 
+//Service to add results to a global variable;
+app.service('results', ['$rootScope','$http', function ($rootScope,$http) {
+
+	$rootScope.resultsArray = [];
+
+	var state = false;
+
+	this.resetEventResults = function() {
+		$rootScope.resultsArray = [];
+	}
+
+	this.addEventResult = function(eventId) {
+		$http({
+			method: 'GET',
+			url: prefix + 'organiser/results',
+			params: {
+				token: $rootScope.token,
+				eventId: eventId
+			}
+		}).then(function success(e) {
+
+			var total = 0;
+
+			for (var i = 0; i<e.data.length;i++) {
+				for(var j = 0; j<e.data[i].votes; j++) {
+					total+=e.data[i].votes[j][1];
+				}
+			}
+
+			for (var i = 0; i<e.data.length;i++) {
+				for (var j=0; j<e.data[i].votes; j++) {
+					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
+				}
+			}
+
+			var sampleData = [
+			{
+					question: "Are you gay?",
+					votes: [
+						["Yes",0.333333],
+						["No",0.666666]
+					]
+				}
+			]
+
+			$rootScope.resultsArray.push(sampleData);
+
+		}, function error(error) {
+			console.log(error);
+		})
+	}
+}])
+
 //Handles all event related stuff, including questions and choices.
-app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', function ($rootScope, $scope, $http,$timeout) {
+app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results', function ($rootScope, $scope, $http,$timeout,results) {
 
 	$scope.events = [];
 	$scope.time = null;
@@ -220,6 +272,12 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 				}
 			}).then(function success(e) {
 				$scope.events = []
+
+				results.resetEventResults();
+
+				e.data.forEach(function(event) {
+					results.addEventResult(event.id);
+				});
 
 				for (var i = 0; i<e.data.length; i+=2) {
 					$scope.events.push(e.data.slice(i,i+2));
@@ -376,51 +434,11 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		})
 	}
 
-	$scope.fetchResults = function(eventId) {
-
-		$http({
-			method: 'GET',
-			url: prefix + 'organiser/results',
-			params: {
-				token: $rootScope.token,
-				eventId: eventId
-			}
-		}).then(function success(e) {
-
-			var total = 0;
-
-			for (var i = 0; i<e.data.length;i++) {
-				for(var j = 0; j<e.data[i].votes; j++) {
-					total+=e.data[i].votes[j][1];
-				}
-			}
-
-			for (var i = 0; i<e.data.length;i++) {
-				for (var j=0; j<e.data[i].votes; j++) {
-					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
-				}
-			}
-
-		}, function error(error) {
-			console.log(error);
-		});
-
-		var sampleData = [
-			{
-				question: "Are you gay?",
-				votes: [
-					["Yes",0.333333],
-					["No",0.666666]
-				]
-			}
-		]
-
-		return sampleData;
-	}
-
-	var color = ['#d53e4f','#fc8d59','#fee08b','#e6f598','#99d594'];
-
+	//Compute the style for each object and return to form the visualization
 	$scope.computeStyle = function(value,index) {
+
+		var color = ['#d53e4f','#fc8d59','#fee08b','#e6f598','#99d594'];
+
 		return {
 			width: value * 500 + 'px',
 			background: color[index],
@@ -429,7 +447,14 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout', functio
 		};
 	}
 
+	//To round variables for the function in ngRepeat
 	$scope.roundValue = function(value) {
 		return Math.round(value * 100);
+	}
+
+	$scope.findIndex = function(eventId) {
+		$rootScope.resultsArray.forEach(function(result) {
+			if (event)
+		})
 	}
 }]);
