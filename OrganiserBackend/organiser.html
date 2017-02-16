@@ -181,7 +181,7 @@
 						</div>
 
 						<div ng-show="event.started" ng-init="resultIndex = findIndex(event.id)">
-							<div class="callout primary" ng-repeat="question in resultsArray[1]">
+							<div class="callout primary" ng-repeat="question in resultsArray[resultIndex].data">
 								<div class="row">
 									<div class="medium columns">
 										{{question.question}}

@@ -80,7 +80,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 
 	$rootScope.$on('LoggedIn',function(val) {
 
-		(function tick() {
+		(function tickVoter() {
 			$http({
 				method: 'GET',
 				url: prefix + 'organiser/voter/all',
@@ -99,7 +99,7 @@ app.controller('VoterList', ['$rootScope','$scope','$http','$timeout', function 
 					}
 				});
 
-				$scope.timeout = $timeout(tick,2000);
+				$scope.timeout = $timeout(tickVoter,2000);
 
 			}, function error (error) {
 				console.log("error")
@@ -208,6 +208,14 @@ app.service('results', ['$rootScope','$http', function ($rootScope,$http) {
 
 	var state = false;
 
+	this.getResultsLatch = function() {
+		return state;
+	}
+
+	this.setResultsLatch = function(newState) {
+		state = newState;
+	}
+
 	this.resetEventResults = function() {
 		$rootScope.resultsArray = [];
 	}
@@ -224,29 +232,41 @@ app.service('results', ['$rootScope','$http', function ($rootScope,$http) {
 
 			var total = 0;
 
+			//Finding total number of votes per question and adding them in
 			for (var i = 0; i<e.data.length;i++) {
 				for(var j = 0; j<e.data[i].votes; j++) {
 					total+=e.data[i].votes[j][1];
 				}
-			}
 
-			for (var i = 0; i<e.data.length;i++) {
 				for (var j=0; j<e.data[i].votes; j++) {
 					e.data[i].votes[j][1] = e.data[i].votes[j][1]/total;
 				}
+
+				total = 0;
 			}
 
-			var sampleData = [
-			{
-					question: "Are you gay?",
-					votes: [
-						["Yes",0.333333],
-						["No",0.666666]
-					]
-				}
-			]
+			var newData = {
+				id: eventId,
+				data: e.data
+			}
 
-			$rootScope.resultsArray.push(sampleData);
+			var sampleData = {
+				id: eventId,
+				data: [
+					{
+						question: "Are you gay?",
+						id: eventId,
+						votes: [
+							["Yes",0.333333],
+							["No",0.666666]
+						]
+					}
+				]
+			};
+
+			$rootScope.resultsArray.push(newData);
+
+			console.log($rootScope.resultsArray);
 
 		}, function error(error) {
 			console.log(error);
@@ -273,11 +293,17 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 			}).then(function success(e) {
 				$scope.events = []
 
-				results.resetEventResults();
+				if (results.getResultsLatch()) {
+					results.setResultsLatch(false);
+				} else {
+					results.resetEventResults();
 
-				e.data.forEach(function(event) {
-					results.addEventResult(event.id);
-				});
+					e.data.forEach(function(event) {
+						results.addEventResult(event.id);
+					});
+
+					results.setResultsLatch(true);
+				}
 
 				for (var i = 0; i<e.data.length; i+=2) {
 					$scope.events.push(e.data.slice(i,i+2));
@@ -291,6 +317,7 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 
 	$rootScope.$on('LoggedIn',function(val) {
 		$rootScope.tick();
+		setTimeout($rootScope.tick,2000);
 	});
 
 	//Delete an event from the face of the earth
@@ -452,9 +479,20 @@ app.controller('EventList', ['$rootScope','$scope', '$http', '$timeout','results
 		return Math.round(value * 100);
 	}
 
+	//Find index of the required event and return it
 	$scope.findIndex = function(eventId) {
-		$rootScope.resultsArray.forEach(function(result) {
-			if (event)
+
+		var index;
+
+		 $rootScope.resultsArray.forEach(function(result) {
+			if (eventId == result.id) {
+				console.log($rootScope.resultsArray[$rootScope.resultsArray.indexOf(result)])
+				index = $rootScope.resultsArray.indexOf(result);
+			}
 		})
+
+		console.log(index);
+
+		return index;
 	}
 }]);
