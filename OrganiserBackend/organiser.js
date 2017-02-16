@@ -24,6 +24,7 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', function ($ro
 
 			$rootScope.loginStatus = true;
 
+
 		}, function error(error) {
 			console.log("error");
 		});

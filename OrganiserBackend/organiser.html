@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8">
 
-  <title>TMS Polling - Admin Panel</title>
-  <meta name="description" content="TMS Polling - Admin Panel">
+  <title>TMS Polling - Organizer</title>
+  <meta name="description" content="TMS Polling - Organizer Panel">
   <meta name="author" content="Aditya Raju">
 
   <link rel="stylesheet/less" type="text/css" href="organiser.less">
@@ -28,25 +28,51 @@
 <!--<div class="_bg-background-dark">-->
 	<!--<label class="_c-text-inverted topbar">TMS Polling</label>-->
 <!--</div>-->
-	<div class="row">
-		<div class="large-12 columns">
-			<div><h3>Organiser Panel</h3></div>
+	<!--<div class="row">-->
+		<!--<div class="large-12 columns">-->
+			<!--<div><h3>Organiser Panel</h3></div>-->
+		<!--</div>-->
+	<!--</div>-->
+
+<form id="organizer-login" ng-hide="loginStatus">
+	<fieldset class="_bg-background-light" ng-controller="LoginController"  >
+		<div class="heading">
+			Organizer Panel
 		</div>
-	</div>
+		<br>
+		<div>
+			<div>
+				<label>Username</label>
+				<input type="text" id="username1" ng-model="user.username" placeholder="Organiser Name"></input>
+			</div>
+			<div>
+				<label for="password1" >Password</label>
+				<input type="password" id="password1" ng-model="user.password" placeholder="Password">
+			</div>
+			<div>
+				<button type=button class="button success expanded" id="logButton" ng-click="handleLogin()">
+					Log in
+				</button>
+			</div>
+
+		</div>
+	</fieldset>
+</form>
+
 	<div class="row" ng-controller="LoginController">
-		<div ng-hide="loginStatus">
-			<div class="large-5 columns">
-				<input type="text" id="username" ng-model="user.username" placeholder="Organiser Name"></input>
-			</div>
-			<div class="large-5 columns">
-				<input type="password" id="password" ng-model="user.password" placeholder="Password"></input>
-			</div>
-			<div class="large-2 columns">
-				<button type="button" class="button success expanded" ng-click="handleLogin()">Log In</button>
-			</div>
-			<div>{{user}}</div>
-		</div>
-		<div ng-hide="!loginStatus">
+		<!--<div ng-hide="loginStatus">-->
+			<!--<div class="large-5 columns">-->
+				<!--<input type="text" id="username" ng-model="user.username" placeholder="Organiser Name"></input>-->
+			<!--</div>-->
+			<!--<div class="large-5 columns">-->
+				<!--<input type="password" id="password" ng-model="user.password" placeholder="Password"></input>-->
+			<!--</div>-->
+			<!--<div class="large-2 columns">-->
+				<!--<button type="button" class="button success expanded" ng-click="handleLogin()">Log In</button>-->
+			<!--</div>-->
+			<!--&lt;!&ndash;<div>{{user}}</div>&ndash;&gt;-->
+		<!--</div>-->
+		<div id="resetPassword" ng-hide="!loginStatus">
 			<div class="large-5 columns" ng-show="!oldPasswordMatch">
 				<input type="password" id="password_reset" ng-model="password.old" placeholder="Enter old Password">
 			</div>
