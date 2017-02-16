@@ -22,6 +22,7 @@ $(document).ready(function() {
 			basicPassword: password
 		},
 		success: function(data) {
+
 			$.each(data,function(index,value) {
 
 
@@ -48,7 +49,8 @@ $(document).ready(function() {
 				
 
 				$('#adminPanel').append(card);
-			})
+			});
+            $("#admin-login").hide();
 		}});
 	}
 
